@@ -349,9 +349,12 @@ export class GitEngine {
         let status: FileStatus['status'] = 'unchanged';
         let staged = false;
 
+        // stage === 3 means "staged, but with further unstaged edits on top"
+        // (e.g. `git add file`, then edit `file` again without re-adding) —
+        // it's still a staged change, just like stage === 2.
         if (head === 0 && workdir === 2 && stage === 0) { status = 'untracked'; }
-        else if (head === 0 && workdir === 2 && stage === 2) { status = 'added'; staged = true; }
-        else if (head === 1 && workdir === 2 && stage === 2) { status = 'modified'; staged = true; }
+        else if (head === 0 && workdir === 2 && (stage === 2 || stage === 3)) { status = 'added'; staged = true; }
+        else if (head === 1 && workdir === 2 && (stage === 2 || stage === 3)) { status = 'modified'; staged = true; }
         else if (head === 1 && workdir === 2 && stage === 1) { status = 'modified'; }
         else if (head === 1 && workdir === 0 && stage === 0) { status = 'deleted'; staged = true; }
         else if (head === 1 && workdir === 0 && stage === 1) { status = 'deleted'; }

@@ -393,9 +393,14 @@ export class ShellBridge {
 
   private static readonly BUILTINS = [
     'git', 'ls', 'cat', 'echo', 'touch', 'mkdir', 'rm', 'mv', 'pwd', 'grep', 'cd',
-    'clear', 'edit', 'help', 'hint', 'docs', 'solution', 'solve', 'skip', 'undo',
+    'clear', 'edit', 'help', 'hint', 'docs', 'undo', 'restart',
     'head', 'tail', 'wc', 'history', 'alias',
   ];
+
+  // Dev-only tools — kept separate so tab completion only offers them when
+  // they're actually usable (see cli-parser.ts's isDevMode gate and
+  // getHelpText() below, which both hide these outside dev mode).
+  private static readonly DEV_BUILTINS = ['solution', 'solve', 'skip'];
 
   private static readonly FILE_ARG_COMMANDS = ['add', 'cat', 'edit', 'rm', 'touch', 'mv', 'restore'];
 
@@ -453,7 +458,11 @@ export class ShellBridge {
     // Builtin / first-word completion
     else {
       prefix = endsWithSpace ? '' : parts[0];
-      candidates = ShellBridge.BUILTINS.filter(c => c.startsWith(prefix));
+      const isDevMode = import.meta.env.DEV || import.meta.env.VITE_DEV_TOOLS === 'true';
+      const allBuiltins = isDevMode
+        ? [...ShellBridge.BUILTINS, ...ShellBridge.DEV_BUILTINS]
+        : ShellBridge.BUILTINS;
+      candidates = allBuiltins.filter(c => c.startsWith(prefix));
     }
 
     if (candidates.length === 0) {

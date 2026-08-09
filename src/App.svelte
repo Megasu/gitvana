@@ -23,7 +23,7 @@
   import { eventBus } from './lib/engine/events/GameEventBus.js';
   import { locale } from './i18n/index.js';
   import { localizeLevel } from './i18n/content/levels.js';
-  import { saveProgress, loadProgress, clearProgress, getPlayerName, savePlayerName } from './lib/engine/progression/persistence.js';
+  import { saveProgress, loadProgress, clearProgress, getPlayerName } from './lib/engine/progression/persistence.js';
   import MountainPath from './components/progression/MountainPath.svelte';
   import NamePrompt from './components/shared/NamePrompt.svelte';
   import SharePage from './components/shared/SharePage.svelte';
@@ -37,11 +37,9 @@
   import { trackEvent } from './lib/telemetry.js';
 
   let allLevels = $state(getLevels());
-  let levelsLoaded = $state(false);
 
   onMount(async () => {
     allLevels = await getAllLevels();
-    levelsLoaded = true;
   });
 
   // --- Share page routing ---
