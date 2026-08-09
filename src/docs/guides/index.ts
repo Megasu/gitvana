@@ -609,4 +609,162 @@ Git will run \`npm test\` at each midpoint and classify commits automatically. Y
 
 Bisect turns an impossible debugging task into a methodical, bounded process. Instead of reading 500 diffs and guessing, you run a test 9 times and get a definitive answer. It's one of git's most underappreciated features, and in a large repository, it can save hours of detective work.`,
   },
+
+  'remotes-and-collaboration': {
+    id: 'remotes-and-collaboration',
+    title: 'Remotes and Collaboration',
+    category: 'collaboration',
+    order: 1,
+    relatedCommands: ['remote', 'push', 'pull', 'fetch'],
+    content: `## What a Remote Actually Is
+
+A remote is not a live connection to another computer. It's just two things: a name (like \`origin\`) mapped to a URL, and a set of "remote-tracking branches" -- local bookmarks, named things like \`origin/main\`, that record where each branch on that remote pointed the last time you talked to it.
+
+\`\`\`
+git remote -v
+# origin  https://github.com/you/project.git (fetch)
+# origin  https://github.com/you/project.git (push)
+\`\`\`
+
+Nothing about a remote is live or automatic. \`origin/main\` doesn't update itself when someone pushes -- it only updates when *you* run fetch or pull. Until then it's a snapshot: exactly what \`main\` looked like on the remote as of your last conversation with it, which can be arbitrarily stale.
+
+## Fetch vs Pull
+
+This is the single most-asked question about remotes, and the two commands are less similar than their names suggest.
+
+\`git fetch\` downloads new commits and updates your remote-tracking branches -- and does nothing else. Your own branches, your working directory, none of it moves. It is always safe to run, any time, for no reason at all.
+
+\`git pull\` is fetch immediately followed by a merge (or, with \`--rebase\`, a rebase) of the fetched commits into your current branch. It changes your working directory.
+
+\`\`\`
+git fetch origin          # download + update origin/main -- nothing else moves
+git log origin/main       # look at what changed, before touching your branch
+git merge origin/main     # now integrate it, once you've seen it
+\`\`\`
+
+Those three lines are exactly what \`git pull\` does in one step. Fetch first if you want to inspect incoming changes before committing to them; pull is the one-liner for when you trust the remote and just want to be current.
+
+## Push and Upstream
+
+\`git push\` uploads your local commits to a remote branch. The first time you push a brand new branch, git doesn't yet know which remote branch it should track, so you tell it once:
+
+\`\`\`
+git push -u origin feature-x
+\`\`\`
+
+The \`-u\` (\`--set-upstream\`) links your local \`feature-x\` to \`origin/feature-x\` permanently -- every push and pull after this can just be a bare \`git push\` / \`git pull\`, no arguments needed.
+
+### Why push gets rejected
+
+If someone else pushed to the same branch since you last fetched, your push is rejected as a "non-fast-forward" -- git refuses to silently overwrite commits it doesn't know about. The fix is almost always: fetch, merge (or rebase) their changes in, then push again. What you should almost never reach for is \`--force\`.
+
+\`--force\` tells the remote "overwrite history with mine, I don't care what's there." On a branch only you use, that's fine. On a shared branch, it can erase commits your teammates already built on top of -- and because it rewrites what \`origin/main\` points to, everyone who already fetched the old history is now confusingly diverged from it. If you genuinely need to force-push, \`--force-with-lease\` is the safer version: it refuses if the remote has commits you haven't even seen yet, instead of blindly stomping them.
+
+## A Typical Collaboration Loop
+
+\`\`\`
+git clone <url>                # get the repo (once)
+git checkout -b feature-x      # branch for your work
+# ...make commits...
+git fetch origin               # see what's changed upstream
+git merge origin/main          # bring your branch up to date
+git push -u origin feature-x   # share your work
+\`\`\`
+
+Everything above is local until the final push -- you can commit, branch, and even rewrite your own history freely, because none of it is visible to anyone else until you explicitly push it. That's the deal a remote makes: total freedom locally, deliberate sharing at the boundary.
+
+### Why This Matters
+
+Most collaboration friction comes from treating fetch/pull/push as interchangeable, or forgetting that a remote-tracking branch is a snapshot, not a live view. Once you see a remote as "a named URL plus some bookmarks I update on demand," rejected pushes and surprise merge conflicts stop feeling random -- they're just git telling you your snapshot is stale.`,
+  },
+
+  'undoing-changes': {
+    id: 'undoing-changes',
+    title: 'Undoing Changes: A Decision Guide',
+    category: 'fundamentals',
+    order: 5,
+    relatedCommands: ['restore', 'reset', 'revert', 'checkout', 'reflog', 'stash'],
+    content: `## Start Here: Where Does It Live?
+
+Git has half a dozen ways to "undo" something, and reaching for the wrong one is how a simple mistake turns into a git-mystery-solving session. The right command depends entirely on one question: **where does the thing you want to undo currently live?**
+
+\`\`\`
+Uncommitted, in your working directory   ->  git restore <file>
+Staged, but you don't want it staged     ->  git restore --staged <file>
+Committed, not pushed anywhere yet       ->  git reset
+Committed AND pushed / shared            ->  git revert
+"I have no idea where it went"           ->  git reflog
+\`\`\`
+
+The rest of this guide walks through each row.
+
+## Uncommitted Changes in Your Working Directory
+
+You edited a file, haven't staged it, and want it back exactly as it was at your last commit.
+
+\`\`\`
+git restore config.txt
+\`\`\`
+
+This throws the edit away completely -- there's no staging area protecting you here, so double-check with \`git diff\` first if you're not sure you want to lose it.
+
+## Staged Changes You Don't Want Staged (But Want to Keep)
+
+You ran \`git add\` too early, or on the wrong file, but you still want the edits -- just not in the next commit.
+
+\`\`\`
+git restore --staged config.txt
+\`\`\`
+
+Nothing about the file's *content* changes. It just moves from staged back to modified (see the three areas). Your edits are safe.
+
+## A Commit You Haven't Pushed, Want Gone Entirely
+
+You committed, it hasn't gone anywhere else yet, and you want it as if it never happened.
+
+\`\`\`
+git reset --soft HEAD~1    # undo the commit, keep everything staged
+git reset --mixed HEAD~1   # undo the commit, keep everything unstaged (the default)
+git reset --hard HEAD~1    # undo the commit AND discard the changes entirely
+\`\`\`
+
+The three modes only differ in what happens to the *content* -- \`--soft\` and \`--mixed\` keep your work around in some form, \`--hard\` throws it away. Reset is safe to use freely on commits nobody else has, because it only ever moves your own branch pointer around locally.
+
+## A Commit That's Already Pushed or Shared
+
+Here, reset is the wrong tool. Rewriting a commit other people (or other machines) already have creates a permanent fork between your history and theirs. The safe alternative is revert, which doesn't erase the commit at all -- it adds a *new* commit that undoes the old one's changes.
+
+\`\`\`
+git revert <commit>
+\`\`\`
+
+History stays intact and linear-looking; everyone just sees "commit X, then a commit that undoes X" instead of a gap. This is the only tool on this page that's fully safe to use on a branch other people are actively working from.
+
+## "I Don't Know Where It Went"
+
+Deleted a branch by accident? Ran \`reset --hard\` and immediately regretted it? As long as it was ever committed, it's very likely still recoverable -- git doesn't actually delete commit objects for a long time after they become unreachable. Start with the reflog, git's chronological record of everywhere HEAD has been:
+
+\`\`\`
+git reflog
+git branch rescued <hash-from-the-reflog>
+\`\`\`
+
+## Quick Reference
+
+**Discard uncommitted edits** -- \`git restore <file>\`
+
+**Un-stage without losing edits** -- \`git restore --staged <file>\`
+
+**Undo an unpushed commit, keep the changes** -- \`git reset --soft HEAD~1\`
+
+**Undo an unpushed commit entirely** -- \`git reset --hard HEAD~1\`
+
+**Undo a pushed/shared commit** -- \`git revert <commit>\`
+
+**Recover something you thought was gone for good** -- \`git reflog\`
+
+### Why This Matters
+
+Almost every "I broke git" panic is really just "I used the wrong undo command for where the change actually lives." Once you can answer "is this uncommitted, staged, unpushed, or already shared?", the right command follows automatically -- and per the reflog section above, it's very rarely as unrecoverable as it feels in the moment.`,
+  },
 };

@@ -6,6 +6,10 @@ interface CommandDocOverride {
   advanced?: string;
   options?: string[]; // index-matched to doc.options[].description
   examples?: string[]; // index-matched to doc.examples[].explanation
+  // Note: examples[].output is intentionally NOT overridable here -- like
+  // the command/flags themselves, sample terminal output is never
+  // translated. mergeCommandDoc() below spreads the English example object
+  // (`{ ...e, explanation: ... }`), so `output` always passes through as-is.
 }
 
 interface GuideOverride {

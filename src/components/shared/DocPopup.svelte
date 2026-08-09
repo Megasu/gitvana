@@ -4,6 +4,7 @@
   import type { GuideDoc } from '../../docs/types.js';
   import { locale } from '../../i18n/index.js';
   import { loadCommandOverrides, loadGuideOverrides, mergeCommandDoc, mergeGuide } from '../../i18n/content/docs.js';
+  import { renderGuideContent, renderInline } from '../../docs/render.js';
 
   interface Props {
     commandName: string;
@@ -52,6 +53,7 @@
   const guideCategories: { label: string; category: GuideDoc['category'] }[] = [
     { label: 'Fundamentals', category: 'fundamentals' },
     { label: 'Branching', category: 'branching' },
+    { label: 'Collaboration', category: 'collaboration' },
     { label: 'Advanced', category: 'advanced' },
   ];
 
@@ -71,51 +73,6 @@
     if ((e.target as HTMLElement).classList.contains('doc-overlay')) {
       onClose();
     }
-  }
-
-  // Simple markdown-like renderer for guide content
-  function renderGuideContent(content: string): { type: string; text: string }[] {
-    const lines = content.split('\n');
-    const result: { type: string; text: string }[] = [];
-    let inCodeBlock = false;
-    let codeLines: string[] = [];
-
-    for (const line of lines) {
-      if (line.startsWith('```')) {
-        if (inCodeBlock) {
-          result.push({ type: 'code-block', text: codeLines.join('\n') });
-          codeLines = [];
-          inCodeBlock = false;
-        } else {
-          inCodeBlock = true;
-        }
-        continue;
-      }
-
-      if (inCodeBlock) {
-        codeLines.push(line);
-        continue;
-      }
-
-      if (line.startsWith('### ')) {
-        result.push({ type: 'h4', text: line.slice(4) });
-      } else if (line.startsWith('## ')) {
-        result.push({ type: 'h3', text: line.slice(3) });
-      } else if (line.trim() === '') {
-        result.push({ type: 'blank', text: '' });
-      } else {
-        result.push({ type: 'p', text: line });
-      }
-    }
-
-    return result;
-  }
-
-  function renderInline(text: string): string {
-    let s = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-    return s;
   }
 
   const guideContent = $derived(guide ? renderGuideContent(guide.content) : []);
@@ -205,6 +162,9 @@
             {#each doc.examples as ex}
               <div class="example-item">
                 <pre class="example-cmd">{ex.command}</pre>
+                {#if ex.output}
+                  <pre class="example-output">{ex.output}</pre>
+                {/if}
                 <span class="example-explanation">{ex.explanation}</span>
               </div>
             {/each}
@@ -437,6 +397,19 @@
     border: 1px solid #2a2a4e;
     margin: 0 0 2px 0;
     overflow-x: auto;
+  }
+
+  .example-output {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #8a8a9e;
+    background: #08080f;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px dashed #2a2a4e;
+    margin: 0 0 2px 0;
+    overflow-x: auto;
+    line-height: 1.4;
   }
 
   .example-explanation {
