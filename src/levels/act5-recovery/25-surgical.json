@@ -45,14 +45,14 @@
     ]
   },
   "constraints": {
-    "maxCommands": 18
+    "maxCommands": 20
   },
   "hints": [
     { "trigger": "after-attempts", "triggerValue": 5, "text": "A monk whispers: 'Think about it — each commit should transform the file to add ONLY one type of change. Edit, add, commit. Repeat five times.'", "penalty": 0.25 },
     { "trigger": "manual", "text": "The Scroll of Five Cuts: Make one change at a time. Fix the divide bug first (add zero check). Then rename OLD_calc to calc. Then add the power function. Then add the cache. Then add JSDoc @param comments. Each gets its own commit with the right prefix.", "penalty": 1 }
   ],
   "rewards": {
-    "stars": { "maxCommands": { "two": 16, "three": 12 } },
+    "stars": { "maxCommands": { "two": 19, "three": 15 } },
     "achievement": "surgical-precision"
   }
 }

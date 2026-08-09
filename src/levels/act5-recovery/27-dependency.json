@@ -75,14 +75,14 @@
     ]
   },
   "constraints": {
-    "maxCommands": 20
+    "maxCommands": 24
   },
   "hints": [
     { "trigger": "after-attempts", "triggerValue": 6, "text": "Think about the chain: auth depends on main, api depends on auth, frontend depends on api. Rebase in that order.", "penalty": 0.25 },
     { "trigger": "manual", "text": "Order: rebase auth onto main (resolve readme.txt conflict), then checkout api and rebase onto auth, then checkout frontend and rebase onto api, then checkout main and merge auth, api, frontend in order.", "penalty": 1 }
   ],
   "rewards": {
-    "stars": { "maxCommands": { "two": 18, "three": 14 } },
+    "stars": { "maxCommands": { "two": 22, "three": 18 } },
     "achievement": "dependency-dancer"
   }
 }

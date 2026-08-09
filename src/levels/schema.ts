@@ -54,7 +54,6 @@ export interface ValidatorConfig {
     | 'branch-deleted'
     | 'head-at'
     | 'commit-count'
-    | 'graph-shape'
     | 'staging-empty'
     | 'commit-message-contains'
     | 'merge-commit-exists'

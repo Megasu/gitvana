@@ -62,7 +62,7 @@
   ],
   "rewards": {
     "stars": {
-      "maxCommands": { "two": 13, "three": 10 }
+      "maxCommands": { "two": 14, "three": 11 }
     },
     "achievement": "branch-creator"
   }

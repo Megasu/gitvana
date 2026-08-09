@@ -73,7 +73,7 @@
     { "trigger": "manual", "text": "1) git log --oneline to identify commits. 2) git branch feature-ui, git branch feature-api. 3) git checkout feature-ui, cherry-pick the 3 UI commits. 4) git checkout feature-api, cherry-pick the 2 API commits. 5) git checkout main, git reset --hard HEAD~5.", "penalty": 1 }
   ],
   "rewards": {
-    "stars": { "maxCommands": { "two": 16, "three": 12 } },
+    "stars": { "maxCommands": { "two": 18, "three": 14 } },
     "achievement": "branch-surgeon"
   }
 }

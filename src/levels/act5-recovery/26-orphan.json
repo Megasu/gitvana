@@ -50,7 +50,7 @@
     { "trigger": "manual", "text": "The Ancient Scroll: git branch docs, git checkout docs, git rm app.txt, git rm config.txt, write README.txt with documentation, git add README.txt, git commit -m \"Add documentation\".", "penalty": 1 }
   ],
   "rewards": {
-    "stars": { "maxCommands": { "two": 8, "three": 6 } },
+    "stars": { "maxCommands": { "two": 9, "three": 7 } },
     "achievement": "orphan-creator"
   }
 }

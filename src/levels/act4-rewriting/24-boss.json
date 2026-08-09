@@ -73,7 +73,7 @@
     { "trigger": "after-attempts", "triggerValue": 8, "text": "The cold case file has a note: 'Standard detective procedure: narrow the range, identify the suspect, undo the damage. You have all the investigative tools you need.'", "penalty": 0.5 }
   ],
   "rewards": {
-    "stars": { "maxCommands": { "two": 15, "three": 10 } },
+    "stars": { "maxCommands": { "two": 16, "three": 11 } },
     "achievement": "cold-case-solved"
   }
 }

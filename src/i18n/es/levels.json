@@ -340,8 +340,7 @@
       "narrative": "El Hermano Linus ha estado trabajando en la rama feature. Hizo commit cinco veces:\n\n\"wip\"\n\"fix\"\n\"oops\"\n\"actually fix\"\n\"ok done\"\n\nEl Monje Superior mira el git log una sola vez y cierra los ojos durante un buen rato. Cuando los abre, habla con la furia serena de alguien que ha visto demasiados commits WIP.\n\n\"Squash. A todos. En uno. Solo uno. Commit. Limpio.\"\n\nTe entrega la rama. \"Y que diga algo con sentido. Algo que los futuros monjes puedan leer sin llorar.\"\n\nLa ceremonia del squash ha comenzado.",
       "concept": "Hacer squash combina varios commits en uno solo. Usar git reset --soft HEAD~N mueve HEAD N commits hacia atrás, pero mantiene todos los cambios en el área de stage. Luego puedes crear un único commit limpio con todos esos cambios. Esto mantiene el historial legible.",
       "objectives": [
-        "Cambia a la rama feature",
-        "Haz squash de los 5 commits de feature en uno solo con el mensaje 'Add complete feature'",
+        "Ya estás en la rama feature — haz squash de los 5 commits en uno solo con el mensaje 'Add complete feature'",
         "Cambia a main y haz merge de la rama feature"
       ]
     },
@@ -749,13 +748,17 @@
       ]
     },
     "tips": null,
-    "hints": []
+    "hints": [
+      "El Monje Mayor carraspea: 'Haz triage primero. Los cinco problemas no necesitan resolverse en el orden en que los nombré. Empieza con git reflog para encontrar el último commit de dev antes de que fuera eliminada -- todo lo demás puede esperar.'",
+      "El gato deja de ronronear y te mira directamente: '1) git reflog, busca el commit \"Add backup system\" -- es la punta de dev -- y crea una rama ahí llamada recovered. 2) En feature-enlightenment, aplica cherry-pick al commit del hotfix hacia hotfix. 3) De vuelta en feature-enlightenment, haz git reset --hard hasta \"Connect wisdom database\", luego busca \"Add zen mode\" en el reflog y aplícale cherry-pick de nuevo -- eso elimina los archivos WIP y el secreto filtrado. 4) Fusiona recovered, hotfix y el feature-enlightenment limpio en main. 5) Etiquétalo v3.0.'",
+      "El gato se apiada, por última vez: git reflog, busca 'Add backup system' (el último commit de dev) y ejecuta git branch recovered <hash>. Luego git checkout hotfix && git cherry-pick feature-enlightenment (toma el commit del hotfix). Luego git checkout feature-enlightenment && git reset --hard HEAD~5 (llega a 'Connect wisdom database', eliminando los archivos WIP, el secreto filtrado y el commit del hotfix). Busca 'Add zen mode' en git reflog y aplícale cherry-pick de nuevo. Finalmente: git checkout main && git merge recovered && git merge hotfix && git merge feature-enlightenment && git tag v3.0."
+    ]
   },
   "act6-36-first-push": {
     "title": "El Primer Push",
     "subtitle": "Comparte tu trabajo con el monasterio remoto",
     "briefing": {
-      "narrative": "El Monasterio del Control de Versiones se ha expandido. Ahora existe un monasterio REMOTO — un espejo de tu repositorio al que otros monjes pueden acceder.\n\nEl Monje Mayor te entrega un pergamino: \"Se ha configurado un repositorio remoto llamado 'origin'. Tu tarea es simple, joven monje: crea trabajo significativo, y luego haz PUSH a origin para que todos se beneficien de tu sabiduría.\"\n\nEl gato se estira perezosamente. Ya hizo push de su horario de siestas a tres ubicaciones remotas.\n\n\"Recuerda: primero haces commit localmente, luego haces push. El remoto solo recibe lo que compartes explícitamente.\"",
+      "narrative": "El canto en el Salón de los Ancestros se apaga. Alcanzaste Gitvana. El gato se ha quitado la corona de cables de red y ha vuelto a dormir la siesta en el alféizar.\n\nPero la iluminación, resulta, nunca fue la última lección — solo la última que tenías que enfrentar tú solo. El Monje Mayor te encuentra a la mañana siguiente. \"Cada commit que hiciste vivió en tu repositorio, y solo en tu repositorio. Es hora de que aprendas a trabajar con otros.\"\n\nEl Monasterio del Control de Versiones se ha expandido. Ahora existe un monasterio REMOTO — un espejo de tu repositorio al que otros monjes pueden acceder.\n\nEl Monje Mayor te entrega un pergamino: \"Se ha configurado un repositorio remoto llamado 'origin'. Tu tarea es simple, joven monje: crea trabajo significativo, y luego haz PUSH a origin para que todos se beneficien de tu sabiduría.\"\n\nEl gato se estira perezosamente. Ya hizo push de su horario de siestas a tres ubicaciones remotas.\n\n\"Recuerda: primero haces commit localmente, luego haces push. El remoto solo recibe lo que compartes explícitamente.\"",
       "concept": "Los repositorios remotos son copias de tu repositorio que viven en otro lugar. 'git push' envía tus commits a un remoto. Antes de hacer push, necesitas un remoto configurado con 'git remote add'.\n\nEl flujo de trabajo: haz commit localmente, luego haz push para compartir.\n\n'git push origin main' envía tu rama main al remoto llamado 'origin'.",
       "objectives": [
         "Crea un archivo llamado 'scroll.txt' con cualquier contenido",

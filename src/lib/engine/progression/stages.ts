@@ -25,10 +25,15 @@ export const stages: Stage[] = [
   { id: 17, minLevels: 30, color: '#da4a3e', glowColor: '#fa6a5e' },
   { id: 18, minLevels: 32, color: '#ea4a5e', glowColor: '#fa6a7e' },
   { id: 19, minLevels: 34, color: '#fa5a8e', glowColor: '#fa7aae' },
-  { id: 20, minLevels: 35, color: '#ffa300', glowColor: '#ffcc00' },
+  { id: 20, minLevels: 38, color: '#ffa300', glowColor: '#ffcc00' },
 ];
 
-export const TOTAL_LEVELS = 35;
+// Act 1-6 core levels (35 pre-remote-workflow levels + the 3 push/fetch/pull
+// levels added later in act6-collaboration). Act 0's optional terminal-intro
+// levels don't count toward this — they're a skippable tutorial, not part of
+// the main path. Keep this in sync with the total across act1Levels through
+// act6Levels in levels/index.ts if that ever changes again.
+export const TOTAL_LEVELS = 38;
 
 export function getStage(completedLevels: number): Stage {
   let current = stages[0];

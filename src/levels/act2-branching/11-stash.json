@@ -63,7 +63,7 @@
   ],
   "rewards": {
     "stars": {
-      "maxCommands": { "two": 9, "three": 7 }
+      "maxCommands": { "two": 10, "three": 8 }
     },
     "achievement": "stash-master"
   }

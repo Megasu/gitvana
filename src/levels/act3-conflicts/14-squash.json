@@ -10,8 +10,7 @@
     "narrative": "Brother Linus has been working on the feature branch. He committed five times:\n\n\"wip\"\n\"fix\"\n\"oops\"\n\"actually fix\"\n\"ok done\"\n\nThe Head Monk takes one look at the git log and closes his eyes for a very long time. When he opens them, he speaks with the calm fury of a man who has seen too many WIP commits.\n\n\"Squash. Them. All. Into. One. Clean. Commit.\"\n\nHe hands you the branch. \"And make it say something meaningful. Something that future monks can read without weeping.\"\n\nThe ceremony of squashing has begun.",
     "concept": "Squashing combines multiple commits into one. Using git reset --soft HEAD~N moves HEAD back N commits but keeps all changes staged. You can then create a single clean commit from all those changes. This keeps history readable.",
     "objectives": [
-      "Switch to the feature branch",
-      "Squash all 5 feature commits into one with message 'Add complete feature'",
+      "You're already on the feature branch — squash all 5 commits into one with message 'Add complete feature'",
       "Switch to main and merge the feature branch"
     ],
     "newCommands": [

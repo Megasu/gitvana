@@ -114,7 +114,25 @@
   "constraints": {
     "maxCommands": 45
   },
-  "hints": [],
+  "hints": [
+    {
+      "trigger": "after-attempts",
+      "triggerValue": 8,
+      "text": "The Head Monk clears his throat: 'Triage first. The five problems don't need solving in the order I named them. Start with git reflog to find dev's last commit before it was deleted -- everything else can wait.'",
+      "penalty": 0.5
+    },
+    {
+      "trigger": "after-attempts",
+      "triggerValue": 15,
+      "text": "The cat stops purring and looks directly at you: '1) git reflog, find the commit \"Add backup system\" -- that is dev's tip -- and branch it off as recovered. 2) On feature-enlightenment, cherry-pick the timer-fix commit onto hotfix. 3) Back on feature-enlightenment, git reset --hard to \"Connect wisdom database\", then find \"Add zen mode\" in the reflog and cherry-pick it back on -- that drops the WIP files and the leaked secret. 4) Merge recovered, hotfix, and the cleaned feature-enlightenment into main. 5) Tag it v3.0.'",
+      "penalty": 0.75
+    },
+    {
+      "trigger": "manual",
+      "text": "The cat takes pity, one final time: git reflog, find 'Add backup system' (dev's last commit) and run git branch recovered <hash>. Then git checkout hotfix && git cherry-pick feature-enlightenment (grabs the timer-fix commit). Then git checkout feature-enlightenment && git reset --hard HEAD~5 (lands on 'Connect wisdom database', dropping the WIP files, the leaked secret, and the hotfix commit). Find 'Add zen mode' in git reflog and cherry-pick it back on. Finally: git checkout main && git merge recovered && git merge hotfix && git merge feature-enlightenment && git tag v3.0.",
+      "penalty": 1
+    }
+  ],
   "rewards": {
     "stars": { "maxCommands": { "two": 35, "three": 25 } },
     "achievement": "gitvana-achieved"
