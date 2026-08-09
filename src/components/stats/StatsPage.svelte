@@ -75,10 +75,16 @@
     return groups;
   }
 
+  // Below this many starts, a level's completion rate is too noisy to rank —
+  // one unlucky (or lucky) session can swing it to 0% or 100%. Keeps
+  // low-traffic levels (late-game ones especially) from crowding out real
+  // bottlenecks that have enough volume to trust.
+  const MIN_SAMPLE_SIZE = 20;
+
   // Top 5 hardest levels
   function hardestLevels(levels: LevelStat[]): (LevelStat & { rate: number })[] {
     return levels
-      .filter(l => l.starts >= 1)
+      .filter(l => l.starts >= MIN_SAMPLE_SIZE)
       .map(l => ({ ...l, rate: completionRate(l.starts, l.completions) }))
       .sort((a, b) => a.rate - b.rate)
       .slice(0, 5);

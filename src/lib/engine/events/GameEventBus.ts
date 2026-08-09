@@ -1,7 +1,7 @@
 export type GameEvents = {
   'command:executed': { command: string; args: string[]; output: string; success: boolean };
   'state:changed': void;
-  'level:loaded': { levelId: string };
+  'level:loaded': { levelId: string; isRestart: boolean };
   'level:completed': { levelId: string; stars: number };
   'level:failed': { reason: string };
   'hint:requested': void;

@@ -49,9 +49,16 @@ export function initTelemetry(): void {
   });
 
   // Level events via event bus
-  eventBus.on('level:loaded', ({ levelId }) => {
+  eventBus.on('level:loaded', ({ levelId, isRestart }) => {
     currentLevelId = levelId;
-    trackEvent('level_start', levelId);
+    // Restarts already send their own 'level_restart' event (see App.svelte's
+    // handleRetry). Counting them as a second 'level_start' too would inflate
+    // the starts denominator behind the Stats page's completion rate, making
+    // any level with a lot of restarts look far less-completed than it is —
+    // even ones players restart once and then beat.
+    if (!isRestart) {
+      trackEvent('level_start', levelId);
+    }
   });
 
   eventBus.on('level:completed', ({ levelId, stars }) => {

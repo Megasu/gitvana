@@ -178,11 +178,11 @@
   }
 
   // --- Level lifecycle ---
-  async function startLevel() {
+  async function startLevel(isRestart = false) {
     screen = 'playing';
     levelKey++;
     soundManager.play('levelStart');
-    await levelLoader.load(currentLevel);
+    await levelLoader.load(currentLevel, isRestart);
   }
 
   function handleComplete(stars: number) {
@@ -202,7 +202,7 @@
 
   function handleRetry() {
     trackEvent('level_restart', currentLevel.id);
-    startLevel();
+    startLevel(true);
   }
 
   function handleNext() {

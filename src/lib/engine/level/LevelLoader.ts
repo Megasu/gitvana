@@ -7,7 +7,7 @@ import { pushCommand } from '../git/commands/remote.js';
 export class LevelLoader {
   constructor(private engine: GitEngine) {}
 
-  async load(level: LevelDefinition): Promise<void> {
+  async load(level: LevelDefinition, isRestart = false): Promise<void> {
     await this.engine.reset();
 
     // All git commands always available — users can explore freely
@@ -20,7 +20,7 @@ export class LevelLoader {
       await this.mountFileTree(level.initialState.fileTree);
     }
 
-    eventBus.emit('level:loaded', { levelId: level.id });
+    eventBus.emit('level:loaded', { levelId: level.id, isRestart });
     eventBus.emit('state:changed', undefined as never);
   }
 
