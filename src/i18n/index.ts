@@ -8,22 +8,23 @@ const LOCALE_KEY = 'gitvana-locale';
 // Svelte store subscription.
 const NAMESPACES = ['ui', 'stages', 'hints'] as const;
 
-// Available locales (add new ones here)
+// Available locales (add new ones here). zh is listed first since it is the default.
 export const availableLocales: { code: string; label: string }[] = [
+  { code: 'zh', label: '中文' },
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Español' },
 ];
 
-// Detect browser language, fallback to 'en'
+// Detect browser language, fallback to 'zh' (default site language)
 function detectLocale(): string {
   const saved = localStorage.getItem(LOCALE_KEY);
   if (saved) return saved;
-  const lang = navigator.language || 'en';
+  const lang = navigator.language || 'zh';
   if (availableLocales.some(l => l.code === lang)) return lang;
   // Fall back from a region variant (es-MX) to its base language (es)
   const base = lang.split('-')[0];
   const baseMatch = availableLocales.find(l => l.code.split('-')[0] === base);
-  return baseMatch ? baseMatch.code : 'en';
+  return baseMatch ? baseMatch.code : 'zh';
 }
 
 export const locale = writable<string>(detectLocale());

@@ -1,0 +1,817 @@
+{
+  "act0-01-terminal": {
+    "title": "终端苏醒",
+    "subtitle": "每段旅程都始于一条命令",
+    "briefing": {
+      "narrative": "在 Gitvana 山脚下，你遇见一位盘腿坐在发光终端旁的僧侣。\n\n「啊，一位新来的求道者！在攀登版本控制修道院之前，你必须先修习终端之道。山上的僧侣都默认你已经懂这些了，而且说真的，你绝不想在住持面前显得一头雾水。」\n\n他指了指屏幕。「咱们从简单的开始。先读一读欢迎卷轴，然后创建一个文件。每一段伟大的旅程，都始于落笔写下些什么。」",
+      "concept": "终端是一种基于文本的方式来与计算机交互。cat 用来显示文件内容。echo \"文字\" > file.txt 会创建一个包含指定文字的新文件。ls 则列出当前目录下的所有文件。",
+      "objectives": [
+        "用 cat welcome.txt 阅读欢迎卷轴",
+        "创建一个名为 journal.txt 的文件，内容随意",
+        "用 ls 确认你的文件确实存在"
+      ]
+    },
+    "tips": [
+      "输入一条命令后按回车即可执行",
+      "用 cat 文件名 来读取文件里的内容",
+      "用 echo \"文字\" > 文件名 创建带内容的文件"
+    ],
+    "hints": [
+      "僧侣低声说：「输入 cat welcome.txt 读卷轴，里面有操作说明。」",
+      "僧侣轻轻叹了口气：「echo \"hello\" > journal.txt 就会创建这个文件。照着打就行！」",
+      "修道院的猫从键盘上走过：cat welcome.txt && echo \"我的旅程开始了\" > journal.txt && ls"
+    ]
+  },
+  "act0-02-scrolls": {
+    "title": "卷轴守护者",
+    "subtitle": "文件就是数字修道院的卷轴",
+    "briefing": {
+      "narrative": "卷轴守护者是一位手指沾满墨迹的老僧，负责看守修道院的档案。\n\n「每位僧侣都必须懂得如何打理卷轴，」他推了推眼镜说道。「你需要创建新的、阅读旧的，还有——这点很重要——在不抹掉已有内容的前提下往里追加。」\n\n他指向一个落满灰尘的书架。「有一份补给清单需要更新。先读一遍，再把缺的那项补上。看在一切被版本化的东西份上，千万别把已有的条目覆盖掉。」",
+      "concept": "touch 会创建一个空文件。echo \"文字\" >> 文件 会向已有文件追加内容（注意是双箭头 >>）。单个 > 会覆盖文件，而 >> 是追加到末尾。这个区别至关重要！",
+      "objectives": [
+        "用 cat supplies.txt 阅读补给清单",
+        "用 >> 把 candles: 50 追加到 supplies.txt",
+        "用 touch 创建一个名为 notes.txt 的新空文件"
+      ]
+    },
+    "tips": [
+      ">> 是追加到文件，> 是覆盖——千万小心！",
+      "touch 在文件不存在时会创建一个空文件"
+    ],
+    "hints": [
+      "卷轴守护者推了推眼镜：「echo \"candles: 50\" >> supplies.txt 会新增一行。双箭头 >> 表示追加到末尾！」",
+      "他敲了敲书架：「touch notes.txt 会创建一个空文件。就这么简单。」",
+      "修道院的猫示范了一下：cat supplies.txt && echo \"candles: 50\" >> supplies.txt && touch notes.txt"
+    ]
+  },
+  "act0-03-chains": {
+    "title": "链式大师",
+    "subtitle": "真正的力量来自把简单命令组合起来",
+    "briefing": {
+      "narrative": "僧侣赞许地点点头，认可你的进展。「你差不多可以为登山做准备了。但还有一门艺术必须学——组合命令的艺术。」\n\n他掏出一卷厚重的卷轴。「修道院的图书馆有一份古籍目录。你的任务：找到关于 meditation 的那一条，并把它写入一个新文件。你需要 grep 来搜索，还要学会把命令串起来。」\n\n他朝你眨眨眼。「山上的僧侣串起命令来就像呼吸一样自然。以后你会感谢我的。」",
+      "concept": "grep 在文件内搜索文本。grep 单词 文件.txt 会显示包含该单词的行。你可以用 && 把命令串起来——第二条命令只有在第一条成功时才会运行。例如：echo \"hello\" > file.txt && cat file.txt 会先创建文件，再显示它。",
+      "objectives": [
+        "用 grep 在 catalog.txt 中找到关于 meditation 的那一行",
+        "创建一个名为 found.txt 的文件，内容包含 meditation",
+        "用 && 把命令串成一行来完成"
+      ]
+    },
+    "tips": [
+      "grep 单词 文件 会搜索包含「单词」的行",
+      "用 && 串联命令：第一条 && 第二条",
+      "你可以把输出重定向到文件：grep 单词 文件.txt > 结果.txt"
+    ],
+    "hints": [
+      "僧侣提示：「grep meditation catalog.txt 会找到你需要的那一行。」",
+      "他在沙地上画着：「echo \"meditation\" > found.txt 创建文件。或者更花哨一点：grep meditation catalog.txt > found.txt 把 grep 的输出重定向到文件！」",
+      "修道院的猫娴熟地敲着键盘：grep meditation catalog.txt > found.txt"
+    ]
+  },
+  "act1-01-spark": {
+    "title": "星火",
+    "subtitle": "无中生有",
+    "briefing": {
+      "narrative": "在一个落雨的周二，你来到了版本控制修道院。住持——一位自称发明了分号的沧桑人物——挡在门口。\n\n「在你入内之前，」他庄严地宣布，「你必须证明自己能从无中生出有。初始化一个仓库，写下一个文件，然后提交它。宇宙诞生时的条件还不如这。」\n\n他顿了顿。「另外，厨房急需一份采购清单。说来话长，别问。」",
+      "concept": "git init 会在当前目录创建一个全新的 Git 仓库。可以把它想象成建立一座修道院——在有人迈出第一步之前，什么都不被追踪。git add 会把文件放入暂存区，标记为下一次提交的一部分。git commit 则把暂存区的一切保存为一个永久的快照。",
+      "objectives": [
+        "用 git init 初始化一个新 git 仓库",
+        "创建一个文件（任意名字、任意内容）",
+        "用 git add 把文件放入暂存区",
+        "创建你的第一个提交"
+      ]
+    },
+    "tips": [
+      "用 echo \"内容\" > 文件名.txt 创建文件",
+      "随时输入 help 查看可用命令",
+      "犯错了吗？点击「撤销」按钮，或输入 undo"
+    ],
+    "hints": [
+      "住持凑近你，故作神秘：「先 git init。然后创建一个文件，随便什么文件。echo \"hello\" > hello.txt 就行。」",
+      "一位路过的僧侣把一卷卷轴丢在你脚边：「git add <文件> 把它暂存。git commit -m \"说明\" 把它保存。这就是正道。」",
+      "修道院的猫从你键盘上走过，莫名其妙地打出了：git init && echo \"hello\" > hello.txt && git add hello.txt && git commit -m \"首次提交\""
+    ]
+  },
+  "act1-02-ledger": {
+    "title": "修道院账本",
+    "subtitle": "并非所有东西都该进入神圣的卷轴",
+    "briefing": {
+      "narrative": "修道院的记账僧——一位凡事都要反复确认三遍、神经紧绷的僧侣——递给你三个文件，露出忧心忡忡的表情。\n\n「我们有 data.txt 和 config.txt，这两样必须进仓库。但那个 temp.log 文件？就是垃圾。调试输出，数字废弃物。如果你把它提交了，住持会罚你用牙刷去清扫禅修厅。」\n\n他四下张望。「用他的牙刷。他对这种惩罚可是很讲究的。」",
+      "concept": "git add 让你精确选择下一次提交要包含哪些文件，这叫做「选择性暂存」。你不必提交工作目录里的所有东西——只提交你显式 add 的文件。这样就能把临时文件、日志和其它垃圾挡在仓库历史之外。",
+      "objectives": [
+        "将 data.txt 和 config.txt 暂存（但不要把 temp.log 暂存）",
+        "提交已暂存的文件",
+        "temp.log 必须留在工作目录中，但保持未追踪状态"
+      ]
+    },
+    "tips": [
+      "用 git status 查看哪些文件被追踪、已暂存或未追踪",
+      "可以一次暂存多个文件：git add 文件1.txt 文件2.txt"
+    ],
+    "hints": [
+      "记账僧低声说：「用 git status 看清各自的状态，然后只 add 你想要的文件。别动 temp.log，永远别动 temp.log。」",
+      "修道院公告栏上贴着一张便条：「git add data.txt config.txt——你可以一次添加多个文件。然后提交。」",
+      "修道院的猫一脸得意地敲着：git add data.txt config.txt && git commit -m \"添加修道院档案\""
+    ]
+  },
+  "act1-03-tea-leaves": {
+    "title": "观茶知变",
+    "subtitle": "历史之中藏着真相",
+    "briefing": {
+      "narrative": "修道院的司库僧冲进缮写室，双眼圆睁。「有人把价目表毁了！面包原本是 10 个硬币，现在却写着 1000！厨房的僧侣们已经公开起义了！」\n\n他把账本拍在你的桌上。「这份价目表在四次提交中被改来改去。你得找出是哪次提交引入了这个 bug，把文件修好让面包回到 10 个硬币，然后提交修复。」\n\n修道院的猫坐在价目表上。它不关心面包的价格，它吃鱼。",
+      "concept": "git log 展示所有提交的历史——谁在何时改了什么。git diff 让你比较提交之间的变化。两者合起来就是你的侦探工具箱。当某处出错时，你可以顺着历史追溯，精确找出问题是在何时、何处被引入的。",
+      "objectives": [
+        "用 git log 检查提交历史",
+        "找出把面包从 10 改成 1000 的那次提交",
+        "修复 prices.txt，让面包回到 10",
+        "提交修复，提交信息中包含 Fix 字样"
+      ]
+    },
+    "tips": [
+      "用 git log --oneline 以紧凑方式查看提交历史",
+      "用 edit 文件名.txt 编辑文件",
+      "用 git diff 查看工作目录中发生的变化"
+    ],
+    "hints": [
+      "司库僧紧张地踱步：「试试 git log --oneline 看所有提交。再用 git diff HEAD~2 HEAD~1 对比可疑提交里改了什么。」",
+      "一位路过的僧侣嘀咕：「第三次提交——『更新价格』——腐败就藏在那里。编辑文件，把 1000 改回 10，然后 add 并 commit，提交信息带上 Fix。」",
+      "修道院的猫打翻了墨水瓶，奇迹般地拼出一行字：编辑 prices.txt 把 「bread: 1000」 改回 「bread: 10」，然后 git add prices.txt && git commit -m \"修复面包价格\""
+    ]
+  },
+  "act1-04-undo": {
+    "title": "撤销阶梯",
+    "subtitle": "错误，不过是等待被撤销的提交",
+    "briefing": {
+      "narrative": "笨手僧又闯祸了。他用「WRONG」作为提交信息，提交了修道院守则，而不是什么有意义的内容。住持并不觉得好笑。\n\n「那个提交确实存在，」住持捏着鼻梁说道，「改动本身没问题。问题出在那个提交信息，简直让本院蒙羞。我要你撤销那个提交——要温柔地撤销，注意，我们要保留那些改动在暂存区——然后用一个像样的提交信息重新提交。」\n\n他瞪着躲在盆栽后面的笨手僧，后者正试图藏起来。",
+      "concept": "git reset --soft HEAD~1 会撤销最后一次提交，但保留所有改动在暂存区。这就像是说「我想重来一次那个提交，但不想丢掉我的工作」。改动仍留在暂存区，随时可以用更好的信息（或不同的文件）重新提交。",
+      "objectives": [
+        "用 git reset --soft HEAD~1 撤销那个错误的提交",
+        "确认你的改动仍被暂存（git status）",
+        "用「Add monastery rules」作为提交信息重新提交"
+      ]
+    },
+    "tips": [
+      "git reset --soft 会保留你的改动在暂存区——只有提交被移除",
+      "用 git log --oneline 确认提交已被撤销"
+    ],
+    "hints": [
+      "住持叹了口气：「git reset --soft HEAD~1 会撤销最后一次提交，但保留改动在暂存区。然后直接用正确的信息重新提交就行。」",
+      "笨手僧从盆栽后小声说：「软重置，然后 commit -m \"Add monastery rules\"。拜托了。我的声誉就靠这个了。」",
+      "修道院的猫用一只爪子敲着：git reset --soft HEAD~1 && git commit -m \"Add monastery rules\""
+    ]
+  },
+  "act1-05-branching": {
+    "title": "分叉之境",
+    "subtitle": "一个仓库，多条时间线",
+    "briefing": {
+      "narrative": "修道院的哲学导师——一位开口必用比喻的僧侣——把你召唤到分岔小径的花园。\n\n「想象一下，」他一边指着一盆盆景，一边说道，「你可以同时活出两种人生。在一种人生里，你成了面包师；在另一种里，你成了诗人。Git 分支正是如此——互不干扰的平行现实，不同的工作在其中发生。」\n\n他从盆景上修剪下一根枝条。「创建两个功能分支。在每个分支上做不同的提交。然后回到 main。观察每个分支如何保留它自己的真相。」\n\n修道院的猫正坐在盆景树上。没人知道它是怎么上去的。",
+      "concept": "分支让你能在不同的事情上工作而互不影响。git branch <名称> 创建一个新分支。git checkout <名称> 切换到它。每个分支都有自己从创建点分叉出来的提交历史。你可以自由地在分支之间切换。",
+      "objectives": [
+        "创建一个名为 feature-a 的分支",
+        "切换到 feature-a 并至少做一次提交",
+        "创建一个名为 feature-b 的分支（从 main 分出）",
+        "切换到 feature-b 并至少做一次提交",
+        "回到 main 并合并其中一个功能分支"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "哲学僧捋着胡须：「git branch feature-a 创建分支。git checkout feature-a 切换到它。然后创建一个文件并提交。」",
+      "一位路过的僧侣在沙地上勾勒：「在 feature-a 上提交后，用 git checkout main 回到 main。然后 git branch feature-b，git checkout feature-b，提交点东西，再 git checkout main。」",
+      "修道院的猫喵出了答案：git checkout -b feature-a && echo \"feature a\" > a.txt && git add a.txt && git commit -m \"添加功能 a\" && git checkout main && git checkout -b feature-b && echo \"feature b\" > b.txt && git add b.txt && git commit -m \"添加功能 b\" && git checkout main"
+    ]
+  },
+  "act1-06-boss": {
+    "title": "合并熔炉",
+    "subtitle": "住持的终极考验",
+    "briefing": {
+      "narrative": "住持双手交叉站在内门之前。在他身后，墙上挂着两卷卷轴——那是修道院的每周菜单，由两位显然从不沟通的僧侣分别编辑。\n\n「周一道长在 good-changes 分支上把周一的餐食改成了披萨。与此同时，周一道长在 bad-changes 分支上肆意妄为，往周一的格子里写满了垃圾。」\n\n他盯着你。「把好的改动合并进 main——那一次应该很顺利。然后……那个坏分支。也把它合并，但当你看到其中的恐怖时，中止。有些合并本就不该发生。」\n\n修道院的猫正在从两份菜单上进食。它没有任何冲突。",
+      "concept": "当两个分支修改了同一个文件时，Git 无法自动合并它们。它会产生冲突，用 <<<<<<< 和 >>>>>>> 标记把两个版本都留在文件里。你必须手动编辑文件来解决冲突，然后暂存并提交。如果合并出了问题，git merge --abort 会取消合并并恢复到之前的状态。",
+      "objectives": [
+        "把 good-changes 分支合并进 main（干净合并）",
+        "尝试合并 bad-changes——看到冲突后用 git merge --abort 中止",
+        "删除 bad-changes 分支（git branch -d bad-changes）",
+        "最终的 menu.txt 必须包含 Pizza，但不能包含 GARBAGE"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "住持朝卷轴点点头：「明智地合并。有些分支值得被合并，有些值得被放弃。你拥有了所需的全部工具。」"
+    ]
+  },
+  "act2-07-detached": {
+    "title": "分离 HEAD 手术",
+    "subtitle": "迷失在时间中，但不会太久",
+    "briefing": {
+      "narrative": "你在修道院的医务室醒来。护士僧——尽管毫无医学训练却坚持要人叫她「医生」——正俯身看着你。\n\n「坏消息，」她说，「你被 checkout 到了一个旧提交上。你的 HEAD 分离了。别慌——这是 git 的事，不是医疗的事。」\n\n她看了看手里的记录板。「你比现在落后了三次提交。你在这里做的任何工作都会丢失，除非你创建一个分支来保存它。把它想象成在时间悖论的正中央造一艘救生艇。」\n\n修道院的猫不知为何同时存在于过去和现在。猫就是这么古怪。",
+      "concept": "当你 checkout 一个具体的提交（而非分支）时，你就进入了「分离 HEAD」状态。你可以四处看看，甚至做提交，但这些提交不属于任何分支——当你切换走时它们就会丢失。要保存你的工作，用 git checkout -b <名称> 创建一个新分支，把你的提交锚定到一个分支名上。",
+      "objectives": [
+        "你正处于分离 HEAD 状态——在这里做一次新提交",
+        "创建一个名为 rescue 的分支来保存你的工作",
+        "确保 HEAD 位于 rescue 分支上"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "医生僧翻了翻记录：「你处于分离 HEAD 状态。做一次提交——任何提交都行。然后用 git checkout -b rescue 创建一个分支来锚定自己。」",
+      "一位路过的僧侣留下一张处方：「创建一个文件，add 它，commit 它，然后 git checkout -b rescue。这个分支能防止你的提交被垃圾回收。」",
+      "修道院的猫在处方笺上涂写着：echo \"rescued\" > rescued.txt && git add rescued.txt && git commit -m \"紧急提交\" && git checkout -b rescue"
+    ]
+  },
+  "act2-08-tags": {
+    "title": "标记里程碑",
+    "subtitle": "有些提交值得拥有一个名字",
+    "briefing": {
+      "narrative": "修道院的发布经理——一位为每个版本号穿不同颜色僧袍的僧侣——正处于崩溃边缘。\n\n「这个仓库里有六次提交，」他攥着一张色卡说道，「却一个标签都没有。未来的僧侣怎么知道哪次提交是 v1.0 发布版？哪次是 v2.0？我们难道是野兽吗？」\n\n他让自己冷静下来。「把第三次提交标记为 v1.0——那是修道院网站首次上线的时刻。然后把 HEAD 标记为 v2.0，用一个带注释的标签和一条信息。带注释的标签才是正式的那种。它们有历史，有分量。」\n\n修道院的猫戴着一枚小小的版本徽章。上面写着 v9.0。没人发给它这枚徽章。",
+      "concept": "标签是给特定提交打的永久标签——就像历史中的书签。轻量标签（git tag v1.0 <提交>）是简单的指针。带注释的标签（git tag -a v2.0 -m '说明'）还包含打标签者的姓名、日期等元数据。用标签来标记发布版本和里程碑。",
+      "objectives": [
+        "用 git log --oneline 找出这些提交",
+        "把从 HEAD 数起第三次提交（HEAD~3）标记为 v1.0",
+        "把当前 HEAD 标记为 v2.0，使用带注释的标签"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "发布经理整理了一下僧袍：「用 git log --oneline 看这些提交。从顶部数第三个就是 HEAD~3。用 git tag v1.0 HEAD~3 给它打标签。」",
+      "一位路过的僧侣举起两根手指：「轻量标签：git tag v1.0 HEAD~3。带注释标签：git tag -a v2.0 -m \"发布 2.0\"。两条命令，两个标签，两种开悟境界。」",
+      "修道院的猫拨弄着一枚版本徽章，敲下：git tag v1.0 HEAD~3 && git tag -a v2.0 -m \"发布 2.0\""
+    ]
+  },
+  "act2-09-cherry-pick": {
+    "title": "锦上添花",
+    "subtitle": "只摘取你需要的那一颗",
+    "briefing": {
+      "narrative": "修道院的首席开发者——一位坚持「僧侣驱动开发」是种有效方法论的僧侣——遇到了麻烦。\n\n「hotfix 分支简直是场灾难，」他一边翻看提交一边说，「三次提交：调试日志、真正的修复、以及更多调试日志。我需要把修复合并到 main，但如果那些调试文件碰到了 main，住持会罚我去扫一个月的茅厕。」\n\n他用绝望的眼神看着你。「只 cherry-pick 那次修复提交。把调试垃圾留在 hotfix 分支，它们本就该待在那儿。」\n\n修道院的猫正盯着屏幕 intense 地调试。它的方法论同样有效。",
+      "concept": "git cherry-pick <提交> 会把单个提交从一个分支复制到另一个分支。与合并（带来所有提交）不同，cherry-pick 让你精确选择想要的提交。在源分支上用 git log 找到正确的提交哈希。",
+      "objectives": [
+        "查看 hotfix 分支的日志，找到修复提交",
+        "只 cherry-pick 修复了 app.js 的那次提交（带有 return 42 的那次）",
+        "不要把调试文件带到 main"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "首席开发者低声说：「用 git log hotfix --oneline 看那个分支上的提交。找到写着『修复：返回正确值』的那次，记下它的哈希。」",
+      "一位僧侣从门缝塞进一张纸条：「git cherry-pick <哈希>——用 git log hotfix 里那条修复提交的哈希。只要那一个。调试提交必须留在原地。」",
+      "修道院的猫——它显然看得懂 SHA 哈希——敲着：git log hotfix --oneline（找到修复提交的哈希），然后 git cherry-pick <那个哈希>"
+    ]
+  },
+  "act2-10-revert": {
+    "title": "收回成命",
+    "subtitle": "撤销，但不改写历史",
+    "briefing": {
+      "narrative": "修道院的安全僧——一个给锁上加锁、 paranoid 至极的家伙——正在机房里来回踱步。\n\n「有人把我们的秘密提交进了配置文件。然后另有别人在上面提交了一份毫无问题的 readme。我们不能简单地 reset——那样会毁掉 readme 提交。我们需要精准地撤销那次糟糕的配置改动，而不碰任何其它东西。」\n\n他一拳砸在桌上。「这就是为什么我当初想用信鸽而不是 git。鸽子不会泄露秘密。」\n\n修道院的猫不以为然。它截获过许多信鸽。",
+      "concept": "git revert <提交> 会创建一个新提交，用来撤销某次特定提交的改动。与 reset 不同，revert 不改写历史——它是在历史之上追加。这让它在共享/已发布的、你无法改写他人已拉取提交的分支上变得安全。",
+      "objectives": [
+        "用 git log 找出泄露了秘密的那次提交",
+        "用 git revert 撤销那次糟糕的配置改动（那个「Oops」提交）",
+        "config.txt 必须被还原（debug: false，没有 SECRET）",
+        "readme.txt 必须仍然存在（别丢掉后面的提交）"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "安全僧检查了一下他的锁：「用 git log --oneline 找到那个糟糕的提交。它写着『Oops: bad config change』。记下它的哈希，或者因为是从倒数第二次提交，直接用 HEAD~1。」",
+      "一位穿着风衣路过的僧侣低语：「git revert HEAD~1 会创建一个新提交，撤销那次特定提交的改动。readme 安然无恙。」",
+      "修道院的猫一边回头看一边敲着：git revert HEAD~1 --no-edit"
+    ]
+  },
+  "act2-11-stash": {
+    "title": "暂存与疾走",
+    "subtitle": "藏好你的工作，扑灭火灾，再回来",
+    "briefing": {
+      "narrative": "你正在写一个新功能——app.txt 里有未提交的改动，工作进行到一半。突然，修道院的警报铃响了。\n\n「生产环境出严重 bug 了！」一位僧侣边跑边喊，他的僧袍（比喻意义上）着了火。「放下一切去修！但别弄丢你的功能工作！」\n\n住持出现在你肩后。「把你未提交的改动 stash 起来。切到一个新分支，修复 bug，再回来，恢复你的工作。一位好僧侣绝不丢失哪怕一行代码。」\n\n修道院的猫已经把三只老鼠暂存到了禅修坐垫下面。它本能地懂这个道理。",
+      "concept": "git stash 会临时保存你未提交的改动，并清理你的工作目录。就像把进行中的工作放进抽屉。然后你可以切换分支、做别的工作，之后再 git stash pop 把改动精确恢复到你离开时的位置。",
+      "objectives": [
+        "用 git stash 把你当前未提交的改动暂存起来",
+        "创建并切换到名为 bugfix 的新分支",
+        "在 bugfix 分支上做一次提交（修复点东西）",
+        "切回 main 并用 git stash pop 恢复你暂存的改动",
+        "你的进行中改动（new feature WIP）应该回到 app.txt 中"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "住持平静地比划：「git stash 保存你未提交的工作。然后 git checkout -b bugfix 创建并切换到修复分支。」",
+      "一位脸上沾着煤灰的僧侣（那场比喻意义上的火失控了）喊道：「在 bugfix 上，创建一个文件并提交。然后 git checkout main && git stash pop 把你的工作找回来！」",
+      "修道院的猫在打盹间隙敲着：git stash && git checkout -b bugfix && echo \"fixed\" > fix.txt && git add fix.txt && git commit -m \"修复严重 bug\" && git checkout main && git stash pop"
+    ]
+  },
+  "act2-12-boss": {
+    "title": "分诊台",
+    "subtitle": "住持的试炼",
+    "briefing": {
+      "narrative": "住持盘腿坐在宏伟仓库中，四周环绕着卷轴和三幅用墨水绘制的分叉图。\n\n「三个功能分支，」他说，「每个都是才华与灾难的混合体。auth 分支有一个出色的登录系统，但也有一次会删掉数据库的提交。ui 分支有漂亮的 CSS，但也有一次把所有文字都换成了 wingdings 字体。api 分支……嗯，其实它没问题，合并它就行。」\n\n他展开最后一卷卷轴。「cherry-pick 好的，revert 坏的，必要时 stash，当尘埃落定——把结果标记为 v3.0。这是你的试炼。猫会评判你的工作。」\n\n修道院的猫戴上了老花镜。它准备好评判了。",
+      "concept": "现实中的 git 工作需要把多种技能结合起来：cherry-pick 特定提交、revert 坏的、管理 stash、以及给发布打标签。这一关考验你分诊一个混乱仓库、产出干净且带标签的发布版的能力。",
+      "objectives": [
+        "把 api 分支合并进 main",
+        "从 auth cherry-pick 那次好的提交（登录系统，而不是删数据库那次）",
+        "从 ui cherry-pick 那次好的提交（CSS，而不是 wingdings 那次）",
+        "把最终结果标记为 v3.0（带说明的注释标签）"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "住持抛出线索：「一个分支上的提交并非都值得拿。用 git log 审视每个分支。只 cherry-pick 好的。做完后打标签。」"
+    ]
+  },
+  "act3-13-amend": {
+    "title": "修正心法",
+    "subtitle": "一次提交，三个错误，零借口",
+    "briefing": {
+      "narrative": "你刚刚在修道院的新项目里做了第一次提交。你感到自豪。你向后一靠。你抿了一口花草茶。\n\n然后你一下子注意到三件事：\n1. 提交信息写着「Intial setup.」。INTIAL。\n2. 你忘了创建住持特别要求的 readme.md。\n3. app.js 里赫然躺着一行 console.log('debug')，像一处精神上的污点。\n\n住持还没拉取。时间还有。你可以用一次 amend 把这三个问题全部修正。古籍称此为「修正心法」——在任何人察觉之前纠正你的错误。\n\n呼吸。专注。修正。",
+      "concept": "git commit --amend 比单纯改信息更强大。你还可以添加新文件、修改已有文件——这一切都折叠进同一次提交，仿佛错误从未发生。记得先暂存你的改动，再 amend。",
+      "objectives": [
+        "创建一个 readme.md 文件",
+        "修正 app.js 里的调试行",
+        "用 amend 修正提交信息、纳入 readme.md 并更新 app.js"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "修道院的猫在一卷卷轴上伸展着身子，卷轴上写着：「先改好文件并用 git add 暂存。然后再 amend。」",
+      "一位僧侣低语：「创建 readme.md，编辑 app.js 删掉调试行，git add 这两个文件，然后 git commit --amend -m \"Initial setup\"。」",
+      "猫替你做了：echo '# Readme' > readme.md && 编辑 app.js 删掉调试行 && git add app.js readme.md && git commit --amend -m \"Initial setup\""
+    ]
+  },
+  "act3-14-squash": {
+    "title": "压缩仪式",
+    "subtitle": "五次凌乱的提交化为一次干净的真相",
+    "briefing": {
+      "narrative": "笨手僧一直在功能分支上工作。他提交了五次：\n\n「wip」\n「fix」\n「oops」\n「actually fix」\n「ok done」\n\n住持看了一眼 git log，闭上了眼睛，闭了很久。当他睁开眼时，他用一种看过太多 WIP 提交之人的平静怒火说道。\n\n「压缩。它们。全部。成。一次。干净的。提交。」\n\n他把分支递给你。「而且要让它言之有物。让未来的僧侣读起来不会落泪。」\n\n压缩仪式开始了。",
+      "concept": "压缩（squash）把多个提交合并为一个。用 git reset --soft HEAD~N 让 HEAD 回退 N 个提交，但保留所有改动在暂存区。然后你可以用这些改动创建一个单一的干净提交。这让历史保持可读。",
+      "objectives": [
+        "你已经在功能分支上——把全部 5 次提交压缩为一次，信息为「Add complete feature」",
+        "切换到 main 并合并功能分支"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "住持的眼角抽搐：「在功能分支上，git reset --soft HEAD~5 会撤销 5 次提交但保留改动在暂存区。然后重新提交。」",
+      "一卷卷轴从书架上掉落：「git reset --soft HEAD~5，然后 git commit -m \"Add complete feature\"，然后 git checkout main && git merge feature。」",
+      "猫发了慈悲：git reset --soft HEAD~5 && git commit -m \"Add complete feature\" && git checkout main && git merge feature"
+    ]
+  },
+  "act3-15-rebase": {
+    "title": "变基：一条直线",
+    "subtitle": "像一位正经僧侣那样把历史线性化",
+    "briefing": {
+      "narrative": "修道院的 git log 看起来像一盘意面。分支分叉、合并、交叉、又绕回来，那种方式足以让埃舍尔落泪。\n\n住持召开了一个会议。他把 git 图谱投影到禅修大厅的墙上。几位初级僧侣当场晕厥。\n\n「从今往后，」他宣布，「我们要 rebase。不要再让合并提交把历史弄得乱七八糟。直线。干净的历史。就像一座精心耙过的枯山水。」\n\n他转向你。「你的功能分支已经落后于 main 了。有两次新提交落地了。把你的工作变基到它之上，然后快进合并。给他们看看那条直直的线。」\n\n猫赞许地点点头。连猫都更喜欢线性历史。",
+      "concept": "git rebase 把你的分支上的提交在另一个分支之上重放，从而创造出线性历史。与 merge 不同，它不会创建合并提交。在把 feature 变基到 main 之上后，你可以用快进合并得到一条完美笔直的历史线。",
+      "objectives": [
+        "把功能分支变基到 main 之上",
+        "切换到 main",
+        "把 feature 快进合并进 main"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "枯山水耙沙者停了下来：「在 feature 上时，运行 git rebase main 把你的提交重放到 main 最新提交之上。」",
+      "花园里一卷卷轴写着：「git rebase main，然后 git checkout main，然后 git merge feature。三步通向线性开悟。」",
+      "猫替你耙好了花园：git rebase main && git checkout main && git merge feature"
+    ]
+  },
+  "act3-16-rebase-conflict": {
+    "title": "变基冲突",
+    "subtitle": "直线上出现了一个凸起",
+    "briefing": {
+      "narrative": "你以为在上一关之后变基就一帆风顺了。住持露出了那种尽在掌握的微笑。\n\n「现在再来一次，」他说，「但这一次，两个分支都动了 config.txt。」\n\n你的血液都凉了。你把端口改成了 8080。main 上有人把它改成了 4000。当你变基时，Git 不知道该保留哪个端口。它会在变基中途停下来，在文件里丢下冲突标记，等你来决定。\n\n这就是变基冲突。它就像合并冲突，但发生在 Git 重放你工作的过程中，逐提交地进行。解决它，然后继续变基。\n\n修道院的服务器正等着正确的端口号。毫无压力。",
+      "concept": "在变基过程中，如果某个被重放的提交与目标分支冲突，Git 会暂停并让你解决。修复文件后：git add 已解决的文件，然后 git rebase --continue 继续重放剩余提交。",
+      "objectives": [
+        "尝试把 feature 变基到 main 之上",
+        "解决 config.txt 中的冲突",
+        "暂存已解决的文件并继续变基"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "机房僧喃喃道：「先从 git rebase main 开始。当它因冲突停下时，编辑 config.txt 选对端口。」",
+      "服务器上一张便条写着：「解决 config.txt 后，运行 git add config.txt && git rebase --continue。」"
+    ]
+  },
+  "act3-17-secret-purge": {
+    "title": "秘密清除",
+    "subtitle": "从所有时间里抹去被禁的密钥",
+    "briefing": {
+      "narrative": "红色警报。红色警报。\n\n有人——修道院安全日志绝对知道是谁——把修道院的 API 密钥直接提交进了仓库。五次提交中的第二次。它一直躺在 .env 里，像一块霓虹招牌写着「来黑我」。\n\n住持正做着那种平静到令人恐惧的事。「把它移除，」他轻声说，「不只要从当前的树里。要从所有历史里。仿佛它从未存在过。」\n\n你需要回到过去，在没有那个污染提交的情况下重建历史，再把好的工作 cherry-pick 到前面。API 密钥必须从存在中消失。\n\n修道院的安全系于你一身。另外，提交它的那位僧侣在你桌上留了一块歉意的饼干。",
+      "concept": "有时你需要从 Git 历史中彻底移除一个文件——而不只是在新提交里删掉它（旧提交里还会有）。一种做法是：回退到坏提交之前，干净地重新提交，然后把之后那些好的提交 cherry-pick 到前面。",
+      "objectives": [
+        "找出添加 .env 的那次提交",
+        "回到那次提交之前",
+        "在没有 .env 文件的情况下重建历史",
+        "把剩余的好提交 cherry-pick 到前面",
+        "创建一个 .gitignore 防止 .env 再次被提交"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "安全僧低语：「用 git log 找出提交哈希。你需要回退到 .env 提交之前，然后 cherry-pick 在它之后的那些提交。」",
+      "一卷机密卷轴写着：「回退到污染提交之前。然后只 cherry-pick 干净的提交到前面，以此重建历史。」"
+    ]
+  },
+  "act3-18-boss": {
+    "title": "史学家的两难",
+    "subtitle": "cherry-pick、squash、rebase、清除——全都在天亮前完成",
+    "briefing": {
+      "narrative": "修道院的钟声敲响了午夜。你被召唤到住持的办公室。\n\n他把一台笔记本滑过桌面。屏幕上：你见过的最乱的功能分支。五次提交，一次比一次糟：\n\n1. 一次好的功能提交\n2. 一次应该被压缩进 #1 的 WIP 提交\n3. 一次包含秘密 API 密钥的提交\n4. 又一次好的功能提交\n5. 一次本应完全属于 hotfix 分支的提交\n\n住持双手交叠。「清理。这。个。cherry-pick 第 5 次提交到 hotfix 分支。移除那个秘密。压缩 WIP。变基到 main。干净地合并它。」\n\n他在门口停了一下。「要是做得不地道，我会知道的。修道院的猫什么都会告诉我。」\n\n这是期末考试。你所学的每一项技术。一个分支。一个夜晚。",
+      "concept": "现实中的分支清理常常需要组合多种技术：cherry-pick 移动放错地方的提交、reset 移除坏提交、rebase 更新你的分支。关键是循序渐进——一次只做一步。",
+      "objectives": [
+        "把放错位置的提交 cherry-pick 到 hotfix 分支",
+        "从功能分支历史中移除那个秘密",
+        "把 WIP 提交压缩进功能工作里",
+        "把清理过的 feature 变基到 main 之上",
+        "把所有东西合并进 main"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "午夜的猫发出呼噜声：「循序渐进地做。移走不属于这里的，移除不该存在的，压缩本该在一起的，然后变基并合并。一次一步。」"
+    ]
+  },
+  "act4-19-reflog": {
+    "title": "Reflog 记得一切",
+    "subtitle": "在修道院里，没有什么真正遗失过",
+    "briefing": {
+      "narrative": "利纳斯师兄正在做一个秘密功能。他把分支命名为 secret-feature。他往里提交了一张藏宝图。然后——这点很关键——他删掉了这个分支。\n\n「没了，」他盯着终端说，「我在合并之前就把分支删了。那张藏宝图……永远地丢了。」\n\n住持从角落里轻笑。「丢了？遗失？在 Git 里从来没有东西真正遗失过，年轻的僧侣。reflog 记得一切。」\n\n他轻敲自己的太阳穴。「Git 记录着 HEAD 走过的每一步。每一次 checkout、每一次 commit、每一次分支切换。那次提交仍在那里，漂浮在虚空之中。你只需要在 reflog 里找到它的哈希，再给它一个分支就行。」\n\n住持的双眼闪闪发亮。「去吧。把宝藏带回来。」",
+      "concept": "reflog（引用日志）记录着 HEAD 曾经处于的每个位置。即使你删掉了一个分支，那些提交仍然存在——只是没有分支指向它们了。用 git reflog 找到丢失提交的哈希，然后在那个哈希处创建一个新分支。",
+      "objectives": [
+        "用 git reflog 找到丢失的提交",
+        "在那个丢失提交的哈希处创建一个名为 recovered 的新分支",
+        "切换到 recovered 分支，确认宝藏存在"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "修道院的档案管理员低语：「git reflog 展示 HEAD 曾到过的每个地方。找写着『Add treasure』的那条——它旁边的哈希就是你需要的。」",
+      "一卷落灰的卷轴写着：「在 reflog 里找到哈希。然后在那个哈希处创建一个分支并 checkout。」"
+    ]
+  },
+  "act4-20-force-push": {
+    "title": "强推恢复",
+    "subtitle": "有人覆盖了你的工作，但 reflog 知道",
+    "briefing": {
+      "narrative": "你午休回来。三次精心雕琢、漂亮至极的工作提交——没了。git log 只显示你的第一次提交。有人（利纳斯师兄发誓不是他）在你的分支上强推了。\n\n你的 v2 和 v3 改动从分支上消失了。当前状态回到了 v1。你难以置信地盯着屏幕。\n\n但等等。你记起了住持的教诲：「reflog 记得一切。」你本地的 reflog 仍然记录着 HEAD 指向那些提交时的条目。它们仍在对象库里，只是没有任何分支能够到而已。\n\n是时候翻遍 reflog，找到你的 v3 提交，把你的工作从死亡中拉回来了。",
+      "concept": "当有人强推（或你意外 reset）时，提交并不会立刻从本地仓库真正消失。reflog 保留着 HEAD 指向何处的记录。你可以在那里找到「丢失」的提交，并创建新分支来恢复它们。",
+      "objectives": [
+        "用 git reflog 找到丢失的 v3 提交",
+        "在那个提交处创建一个名为 recovered 的分支",
+        "确认你的工作已被恢复"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "修道院的备份僧提示：「git reflog 会显示你做那些提交时的条目。找 v3 提交的哈希。」",
+      "备份驱动器上一张便条写着：「reflog 记得一切。找到丢失的提交，给它一个分支名。」"
+    ]
+  },
+  "act4-21-blame": {
+    "title": "谁写的？",
+    "subtitle": "git blame 的古老艺术",
+    "briefing": {
+      "narrative": "修道院的代码库出了个 bug。code.txt 的第 2 行用大大的、显眼的字母写着「BUG HERE」。然而它还是瞒过了四位不同僧侣的四次提交。\n\n住持需要答案。「是谁引入了这 bug？我要一个名字。我没生气，我只是想……跟他们聊聊。」他掰响了指节。\n\n幸好，Git 恰好有个工具干这个：git blame。它显示文件中每行最后一次被谁修改，以及是在哪次提交里。找出罪魁祸首，修好 bug，并提交修复。\n\nAlice 写了第 1 行。Bob 加了第 4 行。Charlie……嗯，这么说吧，Charlie 有的解释了。Dave 加了第 5 行，声称自己无辜。\n\n修道院的侦探工作开始了。",
+      "concept": "git blame 显示文件中每行所对应的提交和作者。它在理解谁在何时改了什么时极为宝贵。用它把 bug 溯源到源头，然后修复它们。",
+      "objectives": [
+        "对 code.txt 使用 git blame，找出是谁引入了 bug",
+        "修复第 2 行，移除 bug",
+        "提交修复"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "侦探猫嗅了嗅证据：「git blame code.txt 会显示每行最后一次被谁碰过。看第 2 行。」",
+      "一个放大镜揭示：「找出罪魁祸首，修好那一行，提交修复。标准的侦探流程。」"
+    ]
+  },
+  "act4-22-bisect": {
+    "title": "二分追猎",
+    "subtitle": "在时间本身之中做二分搜索",
+    "briefing": {
+      "narrative": "有东西坏了。修道院的测试套件显示「FAIL」，但没人知道它什么时候开始失败的。有 8 次提交。逐个检查会永远花下去（嗯，八步，但僧侣们很没耐心）。\n\n住持掏出一卷古卷，标题是「二分法之术」。「二分搜索，」他虔诚地说，「分而治之。Git 能自动做这件事。」\n\n你告诉 Git：当前提交是坏的（测试失败）。第一次提交是好的（测试通过）。Git 选出中间的提交。你检查它是好是坏。Git 缩小范围。只要 3 步，你就找到了让一切崩溃的那次精确提交。\n\n测试文件很简单：如果写着 PASS，那次提交就是好的；如果写着 FAIL，就是坏的。崩溃发生在第 5 次提交。\n\n找到崩溃的提交，然后 revert 它来修复测试。",
+      "concept": "git bisect 在你的提交历史上执行二分搜索，找出是哪次提交引入了 bug。从 git bisect start 开始，把当前状态标记为坏、把一个已知的旧好状态标记为good，然后 Git 会 checkout 中点让你测试。",
+      "objectives": [
+        "开始一次 bisect 会话",
+        "把当前提交标记为坏，把第一次提交标记为好",
+        "通过检查 test.txt 来测试每个中点提交",
+        "让 bisect 识别出崩溃的提交",
+        "重置 bisect 并 revert 那个坏提交"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "修道院的图书管理员建议：「git bisect start，然后把当前标记为坏、第一次提交标记为good。Git 会从那里引导你。」",
+      "一本搜索手册写道：「在每个中点，检查 test.txt。相应地标记为good或bad。一旦找到元凶，重置 bisect 并撤销损害。」"
+    ]
+  },
+  "act4-23-diff-detective": {
+    "title": "差异侦探",
+    "subtitle": "比较分支，整合真相",
+    "briefing": {
+      "narrative": "修道院的季度报告一团糟。三个分支，三个不同版本的真相。\n\nmain 上有原始报告：Q1: 100，Q2: 200，Q3: 300，Q4: 400。\n\nupdate-a 分支把 Q1 更新为 150。update-b 分支把 Q2 更新为 250、Q3 更新为 350。两个分支都是正确的——它们只是更新了不同的季度。\n\n住持需要在 main 上得到一份 FINAL 报告，把所有正确的数字合并起来。「用 diff，」他说，「比较各个分支。弄清楚改了什么。然后创建那个权威版本。」\n\n你就是差异侦探。审查跨分支的证据，推导出正确的合并状态，并提交真相。",
+      "concept": "git diff 可以比较分支：git diff main..update-a 显示改了什么。通过检查分支之间的 diff，你能理解每个分支修改了什么，并手动把改动合并成正确的最终状态。",
+      "objectives": [
+        "用 git diff 检查 update-a 和 update-b 上的改动",
+        "在 main 上创建正确的合并报告",
+        "提交最终版本"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "报告审计员建议：「试试 git diff main..update-a 和 git diff main..update-b，看每个分支改了什么。」",
+      "报告上一张便利贴写着：「每个分支更新了不同的季度。把两个分支的正确值合并进一份权威报告。」"
+    ]
+  },
+  "act4-24-boss": {
+    "title": "陈年旧案",
+    "subtitle": "bisect、blame、revert——破解修道院最古老的谜团",
+    "briefing": {
+      "narrative": "修道院的古代码库里有个没人能找到的 bug。它在一次次提交中埋藏已久，被多位僧侣的层层改动掩盖。\n\n住持打开一份落灰的文件，标着「COLD CASE」（陈年旧案）。「十次提交。多位作者。在中间的某处，有人破坏了那项神圣的测试。测试文件本该显示 PASS，却显示 FAIL。」\n\n他把案卷推过桌面。「bisect 找出它什么时候坏的。blame 找出是谁干的。revert 修复它。标准的侦探流程。」\n\n修道院的猫跳上桌面，把文件撞到地上。纸张散落一地。猫看着你，仿佛在说：「时间在流逝，侦探。」\n\n这是最后一场调查。你侦探工具箱里的每一件工具。一桩陈年旧案。破解它。",
+      "concept": "把 bisect、blame 和 revert 组合起来，你就拥有了一套完整的调查工具箱。bisect 缩小提交范围。blame 告诉你谁改了什么。revert 干净地撤销损害。三者合力，能破解任何代码谜团。",
+      "objectives": [
+        "用 bisect 找出引入 bug 的那次提交",
+        "用 blame 理解改了什么",
+        "revert 那个坏提交来修复代码库",
+        "确认测试再次通过"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "陈年旧案文件上有一张便条：「标准侦探流程：缩小范围，锁定嫌疑人，撤销损害。你拥有所需的全部调查工具。」"
+    ]
+  },
+  "act5-25-surgical": {
+    "title": "手术式暂存",
+    "subtitle": "把 5 处交错改动拆成 5 个原子提交",
+    "briefing": {
+      "narrative": "住持盯着 code.txt，那眼神就像外科医生审视一张核磁共振片。\n\n「有人——我不点名——对这个文件做了五种不同类型的改动，却一次都没提交过。一个 bug 修复。一个新功能。一次重构。一项性能优化。还有文档更新。全搅在一起，像修道院炖菜里的食材。」\n\n他一拍桌子。猫纹丝不动。猫见过更糟的。\n\n「每次改动都必须成为它自己的提交。用对的前缀：Fix:、Feature:、Refactor:、Perf:、Docs:。五次改动。五个提交。改动是交错的——bug 修复行旁边是功能行，再旁边是重构行。在暂存任何东西之前，你得想清楚每一行究竟是什么。」\n\n他把文件递给你。一团乱麻。但如果你眯起眼，也是一团美丽的乱麻。\n\n「原子提交不只是好的实践。它是让历史可读的方式。是让 revert 安全的方式。是让你赢得那些凌晨三点审查你代码的僧侣尊重的方式。」",
+      "concept": "当一个文件里包含多处交错的改动时，你必须谨慎地构造每次提交对应的文件版本。把文件编辑到每次只包含一种逻辑改动，提交它，然后再为下一次改动编辑一遍。\n\n这需要理解每次改动究竟是什么——而不只是它长什么样。bug 修复、功能、重构、优化和文档服务于不同目的，属于不同的提交。",
+      "objectives": [
+        "把 5 处交错的改动拆成 5 个原子提交",
+        "每个提交信息必须使用正确的前缀：Fix:、Feature:、Refactor:、Perf:、Docs:",
+        "最终文件必须正确包含所有改动",
+        "改动包括：除零修复、power 函数、把 OLD_calc 重命名为 calc、缓存优化、JSDoc 注释"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "一位僧侣低语：「想想看——每次提交都应该把文件变换为只添加一种类型的改动。编辑、add、提交。重复五次。」",
+      "五刀卷轴：一次只做一种改动。先修复除法 bug（加上零判断）。然后重命名 OLD_calc 为 calc。然后加上 power 函数。然后加上缓存。然后加上 JSDoc @param 注释。每一个都带上正确前缀，成为自己的提交。"
+    ]
+  },
+  "act5-26-orphan": {
+    "title": "孤立分支",
+    "subtitle": "创建一个没有共享历史的分支",
+    "briefing": {
+      "narrative": "住持有一个愿景。\n\n「修道院需要文档。不是放进 app 里。不是挨着 app。而是一个完全独立的……文档维度。」\n\n他像一位在海上航行数月后望见陆地的海盗船长，凝视着远方。「一个与 main 毫无共享的分支。没有共同祖先。没有共享文件。就像一艘幽灵船，在我们身旁航行，却身处完全不同的海洋。」\n\n猫一脸困惑。老实说，我也是。\n\n「有些分支服务于与主线代码完全不同的目的。GitHub Pages 用的就是这种套路——一个叫 docs 的分支，只包含文档，与源代码历史零关联。」\n\n他戏剧性地停顿。「给我创建一个孤立分支。一个从虚空本身诞生的分支。」",
+      "concept": "有时你需要一个与主代码库毫无关系的分支——比如一个用于文档的 GitHub Pages 分支。你可以通过创建一个分支、移除所有被追踪的文件、然后从零开始来实现。\n\n核心洞见：并非所有分支都需要共享历史。有些分支服务于完全不同的目的。",
+      "objectives": [
+        "创建一个名为 docs 的分支",
+        "从 docs 分支中移除所有应用文件",
+        "在 docs 分支上创建文档文件",
+        "提交文档",
+        "docs 分支不应包含任何 app 文件"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "一位僧侣建议：「用 git branch docs 创建 docs 分支，然后 git checkout docs。用 git rm 移除 app 文件，然后创建你的文档。」",
+      "猫涂写着：「git branch docs && git checkout docs，然后 git rm app.txt config.txt，然后创建 README.txt 写入你的文档，git add README.txt，git commit。」",
+      "古卷写道：git branch docs，git checkout docs，git rm app.txt，git rm config.txt，写入 README.txt 文档，git add README.txt，git commit -m \"添加文档\"。"
+    ]
+  },
+  "act5-27-dependency": {
+    "title": "依赖之舞",
+    "subtitle": "三个依赖分支，变基链，合并顺序至关重要",
+    "briefing": {
+      "narrative": "修道院的冲刺评审就在明天，三个团队正处于一条依赖链上。\n\nAuth 团队构建了登录系统。API 团队在 auth 之上构建了端点。Frontend 团队在 API 之上构建了 UI。与此同时，main 向前推进了基础设施提交，与 auth 在 readme.txt 上的工作相冲突。\n\n住持把依赖图画在白板上。它看起来像一棵由埃舍尔粉丝设计的家谱。\n\n「三个分支。以正确的顺序变基它们，以正确的顺序合并它们。如果你在 auth 之前变基 api，就会得到一团乱麻。如果你以错误的顺序合并，就会制造本不该存在的冲突。」\n\n猫研究了一下白板，明智地决定改为小睡。\n\n「依赖之舞只有一个正确的顺序。把它找出来。」",
+      "concept": "当功能分支形成依赖链（A 依赖 B，B 依赖 C）时，你必须以正确的顺序变基和合并：\n\n1. 把链的根基变基到 main 上\n2. 把每个依赖分支变基到它已更新的依赖之上\n3. 按依赖顺序合并进 main\n\n顺序错了会造成不必要的冲突和混乱的历史。",
+      "objectives": [
+        "把 auth 变基到 main 之上（解决 readme.txt 中的冲突）",
+        "把 api 变基到已变基的 auth 之上",
+        "把 frontend 变基到已变基的 api 之上",
+        "按正确顺序把三个分支合并进 main"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "想想这条链：auth 依赖 main，api 依赖 auth，frontend 依赖 api。按那个顺序变基。",
+      "顺序：把 auth 变基到 main（解决 readme.txt 冲突），然后 checkout api 并变基到 auth 之上，然后 checkout frontend 并变基到 api 之上，然后 checkout main 并按顺序合并 auth、api、frontend。"
+    ]
+  },
+  "act5-28-patch": {
+    "title": "补丁大师",
+    "subtitle": "审视提交，cherry-pick 好的，跳过垃圾",
+    "briefing": {
+      "narrative": "两个功能分支送来做代码审查。每个都有 4 次提交。但作者们……缺乏自律。\n\nfeature-search 分支有 4 次提交：一个能用的搜索实现、一次 WIP 实验、一次搜索优化、以及又一次把事情搞砸的实验。feature-export 分支有 4 次提交：一个导出模块、一次调试 hack、一个 CSV 格式化器、以及更多调试垃圾。\n\n住持把一份发布清单滑过桌面。「我们需要一个发布分支，只含好的提交。搜索里两个，导出里两个。实验和调试 hack 留在原地。」\n\n他停顿了一下。「但我不会告诉你哪些提交是好的。你需要用 git log 和 git show 逐个审查。读提交信息。看改动。自己判断。」\n\n猫已经审查完两个分支，正默默地评判你。",
+      "concept": "在真实的代码库中，你经常需要从混杂着好工作和随手实验的分支里，有选择地挑出提交。用 git log 看提交信息，git show 检查改动，然后只 cherry-pick 属于你发布的那些。\n\ngit log <分支>——看有哪些提交\ngit show <引用>——检查某个具体提交\ngit cherry-pick <引用>——把一个提交应用到当前分支",
+      "objectives": [
+        "审查两个功能分支，识别好的提交",
+        "从 main 创建一个 release 分支",
+        "只 cherry-pick 好的提交：能用的实现和改进，而不是 WIP/调试那类",
+        "release 分支应该含有 search.txt 和 export.txt，且内容正确的最终版本"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "用 git log feature-search 和 git log feature-export 看提交信息。WIP 和 DEBUG 提交就是坏的那些。",
+      "创建一个 release 分支。从 feature-search cherry-pick 「Implement search」和「Optimize search」两次提交。从 feature-export cherry-pick 「Implement export」和「Add CSV」两次提交。跳过所有 WIP 和 DEBUG 提交。"
+    ]
+  },
+  "act5-29-time-travel": {
+    "title": "时间旅行者",
+    "subtitle": "从 5 个历史版本中重建正确的配置",
+    "briefing": {
+      "narrative": "事故报告：config.txt 在 4 个带标签的发布版本中被修改了 5 次。每个版本改了不同的设置。当前版本是一场灾难——错误的密码、错误的端口，还有一个被意外移除的关键功能开关。\n\n住持把一条时间线推给你：\n- v1.0：初始配置，带有正确的功能开关（enable_backups: true）\n- v2.0：改成了正确的数据库密码（db_pass: monastery_secure_789）\n- v3.0：设置了正确的端口（port: 8443）\n- v4.0：有人把密码改坏了，还移除了备份开关\n- 当前：有人还把端口改坏了\n\n「当前配置里有三个问题。每个正确的值都存在于一个不同的历史版本中。你必须用 git show 读取每个带标签的版本，找到正确的值，然后组装出唯一正确的配置。」\n\n猫已经记住了每个配置文件的每个版本。但它不会帮忙。\n\n「这是 temporal archaeology（时间考古学）。翻遍层层叠叠。找到真相。」",
+      "concept": "Git 在每次提交中保存着每个文件的完整内容。你可以读取任何历史版本：\n\ngit tag——列出所有标签\ngit show v1.0:config.txt——读取 v1.0 标签处 config.txt 的样子\ngit log --oneline——看提交历史\n\n当当前版本有多个问题时，每个修复可能来自历史的不同节点。你需要调查每个版本，找出哪个对每项设置拥有正确的值。",
+      "objectives": [
+        "用 git log 和 git tag 理解历史",
+        "用 git show 读取每个带标签版本处的 config.txt",
+        "修复 3 个问题：从 v2.0 恢复密码、从 v3.0 恢复端口、从 v1.0 恢复备份开关",
+        "最终配置必须合并所有正确的值"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "用 git log --oneline 看历史。然后 git show HEAD~N:config.txt 看每个版本，找出哪个有正确的密码、端口和备份开关。",
+      "密码 monastery_secure_789 来自 HEAD~3。端口 8443 来自 HEAD~2。enable_backups: true 这一行来自 HEAD~4。把它们全部合并进当前配置。"
+    ]
+  },
+  "act5-30-boss": {
+    "title": "开源试炼场",
+    "subtitle": "审视、拆分、amend、cherry-pick、rebase、合并、打标签——完整工作流",
+    "briefing": {
+      "narrative": "你一直在为 MonkOS 做贡献——那款完全由僧侣编写的传奇开源操作系统。维护者刚发了一篇犀利的评审：\n\n「你的功能分支一团糟。5 次提交：3 次没问题，1 次提交信息有拼写错误，1 次把 bug 修复和功能混在一起。与此同时 main 向前推进了新发布。哦，还有一个 contributor-fix 分支，里面有你需要的依赖。」\n\n维护者的清单：\n1. 审视仓库——理解东西都在哪\n2. 修正提交信息里的拼写错误（amend 第二次提交）\n3. 把混合提交拆成独立的 bug 修复和功能提交\n4. cherry-pick 贡献者的修复\n5. 变基到 main 之上（预期会有冲突）\n6. 合并进 main 并打标签 v3.0\n\n住持在暗处注视。「这才是真实的开源贡献该有的样子。不是教程。是战场。」\n\n猫有 47 个已合并的 PR。它一言不发。",
+      "concept": "真实的开源贡献需要把整套 Git 工作流组合起来运用：\n- git log/show 理解仓库状态\n- git commit --amend 修正提交信息\n- git reset + 重新提交 来拆分提交\n- git cherry-pick 从其它分支抓取修复\n- git rebase 更新你的分支\n- git merge + git tag 完成最终发布\n\n挑战在于以正确的顺序完成所有这些，而不制造混乱。",
+      "objectives": [
+        "审视仓库，理解需要修复什么",
+        "修正提交信息里的拼写错误（那条写着「Add netwerk module」的）",
+        "从 contributor-fix 分支 cherry-pick 贡献者的修复",
+        "把你的功能分支变基到 main 之上（解决冲突）",
+        "合并进 main 并打标签为 v3.0"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "先从审视仓库开始：git log --oneline，git log contributor-fix。然后用 git commit --amend 修正拼写错误。cherry-pick 贡献者的修复。变基到 main 之上。"
+    ]
+  },
+  "act6-31-wrong-branch": {
+    "title": "错误的分支",
+    "subtitle": "main 上 5 个交错的提交——把它们分拣到正确的分支上",
+    "briefing": {
+      "narrative": "main 上有五次提交。每一条都是功能提交。没有一条属于这里。\n\n但更糟的是：它们是交错的。三次提交属于 feature-ui（它们修改了 UI 文件），两次属于 feature-api（它们修改了 API 文件）。它们的顺序并不友好——UI、API、UI、UI、API。\n\n住持看着 git log，像一位失望的家长读成绩单。「你需要审视每次提交。读日志。必要时用 git show。弄清楚哪些是 UI 工作，哪些是 API 工作。」\n\n「然后：创建两个功能分支，把正确的提交 cherry-pick 到各自分支，再把 main 重置回它本该在的位置。」\n\n猫已经按颜色、质地和哲学意义给它的毛线球分好了类。它觉得你的混乱令人反感。",
+      "concept": "当提交在错误的分支上时，你需要：\n1. 用 git log 或 git show 审视每次提交，理解它做了什么\n2. 创建正确的分支\n3. 把每次提交 cherry-pick 到正确的分支\n4. 重置原始分支以移除它们\n\n关键技能是调查——在行动之前，你必须确定每次提交属于哪里。",
+      "objectives": [
+        "审视 main 上的提交，确定哪些是 UI、哪些是 API",
+        "创建 feature-ui 分支，把 3 个 UI 提交 cherry-pick 到它",
+        "创建 feature-api 分支，把 2 个 API 提交 cherry-pick 到它",
+        "把 main 重置回只剩基础提交",
+        "所有功能文件必须存在于它们正确的分支上"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "用 git log --oneline 看所有提交。header、sidebar、footer 是 UI。users-api 和 posts-api 是 API 工作。用 HEAD~N 引用 cherry-pick。",
+      "1) git log --oneline 识别提交。2) git branch feature-ui，git branch feature-api。3) git checkout feature-ui，cherry-pick 那 3 个 UI 提交。4) git checkout feature-api，cherry-pick 那 2 个 API 提交。5) git checkout main，git reset --hard HEAD~5。"
+    ]
+  },
+  "act6-32-split": {
+    "title": "分裂人格",
+    "subtitle": "把一个提交拆成 3 个——但顺序很重要",
+    "briefing": {
+      "narrative": "代码审查回来了，而且很残酷。\n\n「一次提交。三处不同的改动。app.js 里一个 bug 修复，feature.js 里一个新功能，utils.js 里一次重构。全挤在一起，像电话亭里的僧侣。」\n\n住持画了一张依赖图。「但这就是陷阱。feature.js 里的新功能 IMPORTS 了 utils.js 里用重构后的新名字引用的东西。如果你在重构之前提交功能，导入路径就是错的。构建会失败。修道院会崩塌。」\n\n他用力敲着图。「提交顺序必须是：重构第一（重命名 utils.js 里的函数），然后功能（它用新名字），然后 bug 修复（独立，放最后）。三个提交，正确顺序，否则免谈。」\n\n猫已经算出了依赖图。它正吃着一条鱼，评判着你。",
+      "concept": "拆分提交需要理解改动之间的依赖关系：\n\n1. git reset --mixed HEAD~1——撤销提交，但保留文件未暂存\n2. 根据依赖关系确定正确顺序\n3. 分别暂存并独立提交每次改动\n\n当一处改动依赖另一处（例如引用了重命名函数的导入）时，被依赖的那处必须先提交。这就是为什么原子提交很重要——它们必须各自独立正确。",
+      "objectives": [
+        "重置混合提交，取消暂存全部 3 个文件",
+        "先提交 utils.txt，信息用 Refactor: 前缀（它重命名了函数）",
+        "再提交 feature.txt，信息用 Feature: 前缀（它依赖重构后的 utils）",
+        "最后提交 app.txt，信息用 Fix: 前缀（独立的 bug 修复）",
+        "3 个文件都必须以正确内容存在"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "依赖关系：feature.txt 从 utils.txt import calculateTotal。所以 utils.txt（重构）必须在 feature.txt 之前提交。",
+      "git reset --mixed HEAD~1，然后：git add utils.txt，git commit -m 'Refactor: rename calcTotal to calculateTotal'，git add feature.txt，git commit -m 'Feature: add pricing module'，git add app.txt，git commit -m 'Fix: add null check'。"
+    ]
+  },
+  "act6-33-octopus": {
+    "title": "合并章鱼",
+    "subtitle": "4 个分支，带顺序依赖、冲突和一个要 revert 的 bug",
+    "briefing": {
+      "narrative": "集成日。四个分支。但这一次，不只是解决冲突。而是关于顺序。\n\n分支 A 改了数据库设置。分支 D 依赖 A 的数据库改动——如果你在 A 之前合并 D，就会得到错误的配置。分支 B 改了和 A 相同的设置——冲突在所难免。分支 C 有两次提交：一次好的，一次引入了 bug。\n\n住持画了依赖图：\n- A 必须第一（D 依赖它）\n- D 第二（在 A 之后干净合并）\n- B 第三（与 A 在数据库设置上冲突，必须解决）\n- C 最后（然后你必须 revert C 里那个有 bug 的提交）\n\n「以错误的顺序合并，你会制造不必要的冲突。漏掉 C 里的 bug，它就会发到生产环境。这就是为什么集成是一门艺术，而不是一道菜谱。」\n\n猫有四条触手。等等，不，它戴着四条围巾。差不多吧。",
+      "concept": "复杂的集成需要理解分支之间的依赖关系：\n\n1. 有些分支依赖其它分支先合并\n2. 合并顺序影响会出现哪些冲突\n3. 合并后，你可能需要 revert 特定的有 bug 提交\n\n策略：识别依赖、规划合并顺序、解决冲突，然后用 git revert 清理 bug。",
+      "objectives": [
+        "以正确的顺序把 4 个分支合并进 main",
+        "解决 branch-a 与 branch-b 之间的冲突",
+        "合并 branch-c 后，revert 它那个有 bug 的提交",
+        "最终 config.txt 必须包含来自所有团队的正确值",
+        "bug 文件必须被 revert"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "合并顺序很重要：branch-a 第一（数据库升级），branch-d 第二（依赖在 a 之后），branch-b 第三（与 a 的数据库冲突），branch-c 最后（然后 revert 它的 bug）。",
+      "1) git merge branch-a。2) git merge branch-d（解决：保留 postgres + structured）。3) git merge branch-b（解决：保留 postgres + redis）。4) git merge branch-c（解决：全部保留）。5) git revert HEAD~1 --no-edit（revert C 里那个 bug 提交）。"
+    ]
+  },
+  "act6-34-archaeology": {
+    "title": "考古远征",
+    "subtitle": "reflog 里两个被删分支——找对那个，跳过被 revert 的提交",
+    "briefing": {
+      "narrative": "两个分支被删除了。两个都出现在 reflog 里。一个是宝藏——三个月的关键工作。另一个是早该被埋葬的废弃实验。\n\n但宝藏分支有过坎坷的历史：做了 5 次提交，其中 2 次在删除前被 revert 了。这意味着只有 3 次提交含有「真正的工作」——被 revert 的那些是噪音。\n\n住持坐在文物库里，拂去古卷上的灰尘。「两个被删分支。reflog 里两套提交。你必须：\n1. 找到两个分支\n2. 逐个检查，确定哪一个是真正的工作\n3. 从正确的分支，只 cherry-pick 那 3 个好提交——不是被 revert 的那些\n4. 按正确的顺序把它们放到一个恢复分支上」\n\n猫调整了一下它的考古帽。「reflog 记得一切。包括那些你希望它忘掉的东西。」\n\n住持阴沉地补充：「实验分支有相似的提交信息。你需要真正读内容才能区分它们。」",
+      "concept": "当分支被删除时，reflog 保留了它们所指向的位置。但恢复正确的提交需要调查：\n\n1. git reflog——找到被删分支的顶端\n2. git show <哈希>——检查每次提交的内容\n3. git log <哈希>——看一个被删分支的完整历史\n4. git cherry-pick——只选择性地恢复好的提交\n\n并非每次提交都值得恢复。被 revert 的提交和废弃的实验应该被抛下。",
+      "objectives": [
+        "在 reflog 里找到两个被删分支",
+        "确定哪个分支有真正的工作（而不是实验）",
+        "只 cherry-pick 那 3 个好提交（跳过被 revert 的）到一个恢复分支",
+        "恢复分支应该包含 artifact1.txt、artifact2.txt 和 artifact3.txt"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "git reflog 会显示两个被删分支的提交。用 git show <哈希> 检查每一个。真正工作的分支在提交信息里有「Artifact」。实验分支里有「prototype」。",
+      "在 reflog 里找到真正工作分支的顶端（提交「Add artifact 3」）。用 git log <哈希> 看它的 5 次提交。只 cherry-pick 那 3 个 artifact 提交（跳过「broken implementation」和「failed optimization」提交）到一个新的 recovered 分支。"
+    ]
+  },
+  "act6-35-gitvana": {
+    "title": "Gitvana",
+    "subtitle": "终极考核——恢复、清理、cherry-pick、合并、打标签",
+    "briefing": {
+      "narrative": "祖先大厅一片寂静。修道院里的每一位僧侣都聚集于此。猫坐在最高的架子上，头顶戴着一顶由以太网线编成的王冠。\n\n住持走上前。他的声音在厅中回荡。\n\n「你走过 init 之路。你熬过了足以击垮弱者的合并冲突。你穿越时间，找回失落之物，拆分不可拆分之物。」\n\n他指向一块巨大的屏幕，上面展示着一个处于绝对危机中的仓库：\n\n- 一个 dev 分支带着 3 次关键提交（network、monitoring、backup）被删除了。那些提交现在只存在于 reflog 里。\n- feature-enlightenment 分支有 7 次提交：3 次好的（enlightenment 模块、wisdom 数据库、zen 模式），2 次 WIP，1 次泄露的密钥，1 次本该属于 hotfix 分支的 hotfix。\n- hotfix 分支存在，但上面还什么都没有。\n- main 需要所有好的工作：恢复的 dev 提交、清理后的 feature，以及那个 hotfix。\n\n五个层层相扣的问题。每一个都依赖解决前一个。\n\n「恢复丢失的提交。清理 feature 分支。移动 hotfix。把一切合并。打标签 v3.0。」\n\n猫发出呼噜声。它已经相信你了。\n\n「做完这一切……你就将成就 GITVANA。」\n\n他结跏趺坐。「对版本控制的完全掌握。痛苦的终结。或者至少，是 Git 痛苦的终结。」",
+      "concept": "这最后的挑战组合了你学过的每一项技能：\n\n- Reflog：从被删分支恢复丢失的提交\n- Reset + cherry-pick：清理混乱分支、移除密钥\n- Cherry-pick：在分支间移动提交\n- Merge：把分支汇聚在一起\n- Tag：标记最终发布\n\n关键是分诊：先评估所有损害，规划你的方法，然后一次一步地执行。每一步都依赖前一步的正确性。没有捷径。",
+      "objectives": [
+        "从 reflog 恢复 3 个丢失的 dev 提交（network、monitoring、backup）",
+        "清理 feature 分支：只保留那 3 个好的 enlightenment 提交",
+        "把 hotfix 提交从 feature 移动到 hotfix 分支",
+        "把 recovery、hotfix 和清理后的 feature 分支合并进 main",
+        "把最终结果标记为 v3.0",
+        "最终结果中不能有密钥或 WIP 文件"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "住持清了清嗓子：「先分诊。这五个问题不必按我说的顺序解决。先从 git reflog 找 dev 被删前的最后一次提交——其它都可以等。」",
+      "猫停止呼噜，直视着你：「1) git reflog，找到提交『Add backup system』——那是 dev 的顶端——并以它为基点创建 recovered 分支。2) 在 feature-enlightenment 上，把 timer-fix 提交 cherry-pick 到 hotfix。3) 回到 feature-enlightenment，git reset --hard 到『Connect wisdom database』，然后在 reflog 里找到『Add zen mode』并 cherry-pick 回来——这就丢掉了 WIP 文件和泄露的密钥。4) 合并 recovered、hotfix 和清理后的 feature-enlightenment 进 main。5) 打标签 v3.0。」",
+      "猫最后发了一次慈悲：git reflog，找到『Add backup system』（dev 的最后一次提交）并运行 git branch recovered <哈希>。然后 git checkout hotfix && git cherry-pick feature-enlightenment（抓取 timer-fix 提交）。然后 git checkout feature-enlightenment && git reset --hard HEAD~5（落在『Connect wisdom database』，丢掉 WIP 文件、泄露的密钥和 hotfix 提交）。在 git reflog 里找到『Add zen mode』并 cherry-pick 回来。最后：git checkout main && git merge recovered && git merge hotfix && git merge feature-enlightenment && git tag v3.0。"
+    ]
+  },
+  "act6-36-first-push": {
+    "title": "首次推送",
+    "subtitle": "与远程修道院分享你的工作",
+    "briefing": {
+      "narrative": "祖先大厅里的诵经声渐息。你成就了 Gitvana。猫已经摘下它的以太网王冠，回到窗台上打盹去了。\n\n但开悟——事实证明——从来不是最后一课，只是你不得不独自面对的最后一课。第二天一早，住持找到了你。「你做过的每一次提交，都存在于你的仓库，也只存在于你的仓库。是时候学习与他人协作了。」\n\n版本控制修道院扩展了。现在有了一个远程修道院——你仓库的一个镜像，其它僧侣可以访问。\n\n住持递给你一卷卷轴：「已经为你配置好了一个名为 origin 的远程仓库。你的任务很简单，年轻的僧侣：创造有意义的工作，然后把它 PUSH 到 origin，让所有人都能受益于你的智慧。」\n\n猫慵懒地伸了个懒腰。它早已把它的午睡时间表推送到了三个远程位置。\n\n「记住：先本地提交，再推送。远程只接收你显式分享的东西。」",
+      "concept": "远程仓库是存在于别处的你的仓库副本。git push 把你的提交发送到远程。在推送之前，你需要用 git remote add 配置好一个远程。\n\n工作流：先本地提交，然后推送来分享。\n\ngit push origin main 把你的 main 分支推送到名为 origin 的远程。",
+      "objectives": [
+        "创建一个名为 scroll.txt 的文件，内容随意",
+        "用有意义的信息 add 并提交它",
+        "把你的 main 分支推送到 origin",
+        "用 git branch -r 确认 origin/main 存在"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "先创建一个文件：echo \"wisdom\" > scroll.txt",
+      "暂存并提交：git add scroll.txt && git commit -m \"Add scroll\"",
+      "推送到远程：git push origin main"
+    ]
+  },
+  "act6-37-fetch-forward": {
+    "title": "远程卷轴",
+    "subtitle": "另一位僧侣推送了新工作——fetch 它并快进",
+    "briefing": {
+      "narrative": "当你在冥想时，盖布里修士往远程推送了两次新提交。你的本地仓库现在落后于 origin/main 了。\n\n住持捋着胡须。「这就是协作的日常现实。别人推送工作。你必须 FETCH 看看改了什么，然后把他们的工作整合进你的分支。」\n\n「用 git fetch 下载他们的提交，然后用 git log 看有什么新东西。既然你还没有分叉，一个简单的合并就会快进你的分支。」\n\n猫已经从远程花园里 fetch 了一只老鼠。它在各方面都领先于你。",
+      "concept": "当别人推送到远程时，你的本地仓库并不知道，直到你 fetch。\n\ngit fetch 下载新提交并更新追踪引用（origin/main）。\ngit pull 一步完成 fetch + merge。\n\n当你的分支没有分叉时，合并是一次「快进」——它只是把你的分支指针向前移动。",
+      "objectives": [
+        "从 origin 抓取最新改动",
+        "把 origin/main 合并进你的本地 main（或用 git pull）",
+        "确认 ancient-wisdom.txt 现在本地存在",
+        "你的 main 分支应该拥有全部 4 次提交"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "先：git fetch origin",
+      "看有什么新东西：git log --oneline origin/main",
+      "合并进来：git merge origin/main（或干脆：git pull）"
+    ]
+  },
+  "act6-38-pull-conflict": {
+    "title": "分岔之路",
+    "subtitle": "你的工作和远程已经分叉——解决冲突",
+    "briefing": {
+      "narrative": "灾难。当你把 Monday 改成「Kung Fu」时，盖布里修士在远程把 Monday 改成了「Calligraphy」。你们改了同一行。\n\n住持深深地叹了口气。「这是协作工作中最常见的痛苦。你们俩改了同一行。当你 pull 时，Git 无法决定谁的改变获胜——你会看到冲突标记。」\n\n「通过选择 Monday 应该是什么——或把两者结合——来解决冲突。编辑文件，移除冲突标记，然后 add 并提交。」\n\n猫看着两只鸟为同一条虫子争斗。它觉得这个类比很有趣。",
+      "concept": "当本地和远程在同一文件上分叉时，git pull 会产生合并冲突。\n\n冲突标记看起来像：\n<<<<<<< HEAD\n你的改动\n=======\n他们的改动\n>>>>>>> origin/main\n\n通过编辑文件把两种改动结合起来来解决，然后 git add 并 git commit。",
+      "objectives": [
+        "从 origin 拉取，看到冲突",
+        "解决 schedule.txt 中的冲突",
+        "文件必须包含 Kung Fu（你为 Monday 选的值）",
+        "add 并提交解决后的合并"
+      ]
+    },
+    "tips": [],
+    "hints": [
+      "先从拉取开始：git pull origin main",
+      "检查冲突：cat schedule.txt——你会看到 <<<<<<< 标记",
+      "编辑文件，同时保留 Kung Fu 和 Calligraphy，移除冲突标记，然后：git add schedule.txt && git commit -m \"Resolve merge\""
+    ]
+  }
+}

@@ -20,8 +20,11 @@ export default defineConfig({
       'panel-border': '#2a2a4e',
     },
     fontFamily: {
-      retro: ['"Press Start 2P"', 'monospace'],
-      mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+      // CJK fallbacks appended so Chinese renders with a proper system font
+      // (the pixel/mono Latin fonts have no CJK glyphs) without disturbing
+      // the Latin typography.
+      retro: ['"Press Start 2P"', '"PingFang SC"', '"Microsoft YaHei"', 'monospace'],
+      mono: ['JetBrains Mono', 'Consolas', '"PingFang SC"', '"Microsoft YaHei"', 'monospace'],
     },
   },
 });

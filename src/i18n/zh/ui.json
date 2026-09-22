@@ -1,0 +1,98 @@
+{
+  "app_name": "GITVANA",
+  "alpha": "测试版",
+
+  "nav_play": "开始游戏",
+  "nav_docs": "文档",
+  "nav_changelog": "更新日志",
+  "nav_blog": "博客",
+  "nav_stats": "统计",
+
+  "act_level": "第 {{act}} 幕 — 第 {{order}} 关",
+  "act_level_act0": "终端之道 — 第 {{order}} 课",
+  "concept": "核心概念",
+  "objectives": "任务目标",
+  "start_level": "开始关卡",
+
+  "stage_clear": "通关！",
+  "commands_used": "使用的命令",
+  "par_3_stars": "标准（3 星）",
+  "retry": "重试",
+  "share": "分享",
+  "next_level": "下一关",
+  "review_steps": "查看我的步骤",
+  "show_results": "结果",
+
+  "terminal": "终端",
+  "undo": "撤销",
+  "home": "首页",
+  "docs": "文档",
+  "report_bug": "报错",
+  "mute": "静音",
+  "unmute": "取消静音",
+  "restart": "重玩本关",
+
+  "new_commands": "新命令：",
+  "progress": "{{passed}}/{{total}}",
+  "cmds": "{{count}} 条命令",
+
+  "your_journey": "你的旅程",
+  "anonymous_monk": "无名僧侣",
+
+  "no_commits_yet": "尚无提交",
+  "make_first_commit_prefix": "提交你的第一个",
+  "commit_graph": "提交图谱",
+  "detached_head": "分离 HEAD",
+  "detached_head_state": "分离 HEAD 状态",
+  "no_reachable_commits": "当前 HEAD 无可达的提交",
+
+  "nothing_to_undo": "没有可撤销的操作。",
+  "undo_restored": "已撤销：恢复到上一条命令之前的状态。",
+  "command_not_found": "{{cmd}}：找不到该命令",
+
+  "mobile_title": "GITVANA",
+  "mobile_message": "Gitvana 需要键盘和更大的屏幕。",
+  "mobile_hint": "请在桌面电脑或笔记本电脑上访问。",
+  "mobile_joke": "修道院的终端塞不进口袋。僧侣们试过了，结局不太妙。",
+
+  "help_title": "GITVANA — 修道院终端",
+  "help_git": "Git 命令（主线任务）：",
+  "help_shell": "Shell 命令（生存工具包）：",
+  "help_meta": "其他：",
+
+  "landing_tagline": "抵达 git 开悟之境",
+  "landing_subtitle": "在游戏中学习 git。一款基于浏览器的冒险游戏，配备真实终端、{{levels}} 个关卡，还有一只爱评头论足的猫。",
+  "landing_play": "立即开玩",
+  "landing_continue": "继续",
+  "landing_read_docs": "阅读文档",
+  "landing_scroll_hint": "向下滚动",
+  "landing_meta": "{{levels}} 个关卡 · 6 幕 · 21 个 git 命令 · 永久免费",
+
+  "landing_journey_caption": "6 幕共 {{levels}} 个关卡。从 git init 到 git 精通。",
+  "landing_tier1_name": "迷茫者",
+  "landing_tier1_desc": "你刚刚抵达。",
+  "landing_tier2_name": "学徒",
+  "landing_tier2_desc": "你已经学会开分支了。",
+  "landing_tier3_name": "行家",
+  "landing_tier3_desc": "你无畏地 rebase。",
+  "landing_tier4_name": "开悟者",
+  "landing_tier4_desc": "你就是仓库本身。",
+
+  "landing_master_title": "你将掌握",
+  "landing_col_basics": "基础",
+  "landing_col_power_tools": "进阶工具",
+  "landing_col_mastery": "精通",
+
+  "landing_docs_cta_title": "还没准备好开玩？",
+  "landing_docs_cta_subtitle": "浏览完整的 git 参考 — 21 个命令、9 篇概念指南，全部免费。",
+
+  "landing_final_cta_title": "准备好开始你的旅程了吗？",
+
+  "landing_author_heading": "作者",
+  "landing_author_aka": "又名",
+  "landing_author_bio": "软件工程师兼像素艺术爱好者。打造 Gitvana，是因为学习 git 不该像读说明书那样枯燥。",
+  "landing_buy_coffee": "请我喝杯咖啡",
+
+  "landing_github_star": "在 GitHub 上点星",
+  "landing_github_desc": "开源，MIT 许可"
+}
