@@ -3,7 +3,7 @@ import 'fake-indexeddb/auto';
 import { Buffer } from 'buffer';
 globalThis.Buffer = Buffer;
 
-import { test, expect, describe } from 'bun:test';
+import { test, expect, describe } from 'vitest';
 import { GitEngine } from '../src/lib/engine/git/GitEngine.js';
 import { LevelLoader } from '../src/lib/engine/level/LevelLoader.js';
 import { LevelValidator } from '../src/lib/engine/level/LevelValidator.js';

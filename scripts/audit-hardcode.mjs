@@ -3,9 +3,10 @@
 // (zh) i18n content volume. Heuristic: visible template text = after
 // stripping <script>/<style>, Svelte {expressions}, and HTML tags.
 import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-const root = join(import.meta.dir, '..');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const i18n = join(root, 'src/i18n');
 
 function stripScriptStyle(s) {
@@ -62,7 +63,7 @@ for (const f of files) {
 
   // (a) template visible text
   const tmpl = stripTags(stripExpressions(stripScriptStyle(raw)));
-  for (const frag of tmpl.split(/\s+/)) {
+  for (const frag of tmpl.split(/\n+/)) {
     const t = frag.trim();
     if (isEnglishProse(t)) {
       enFragments++; enChars += t.replace(/\s/g, '').length;

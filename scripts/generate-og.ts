@@ -46,7 +46,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <text x="460" y="500" font-family="monospace" font-size="36" fill="#ffa300">★ ★ ★ ★ ★</text>
 
   <!-- URL -->
-  <text x="600" y="560" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#29adff">gitvana.pixari.dev</text>
+  <text x="600" y="560" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" fill="#29adff">gitvana.uinav.com</text>
 </svg>`;
 
 // Write SVG first

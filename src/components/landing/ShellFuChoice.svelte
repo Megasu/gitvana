@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { translate } from '../../i18n/index.js';
   interface Props {
     onTerminal: () => void;
     onSkip: () => void;
@@ -9,30 +10,26 @@
 
 <div class="choice-overlay">
   <div class="choice-card">
-    <div class="choice-header">THE WAY OF THE TERMINAL</div>
+    <div class="choice-header">{$translate('ui.shell_way')}</div>
 
     <p class="choice-narrative">
-      At the foot of the Gitvana mountain, a monk with a glowing headband blocks the path.
+      {$translate('ui.shell_intro')}
     </p>
     <p class="choice-dialogue">
-      "Hey, I see you're new around here. The monks up at the monastery assume you know
-      your way around a terminal. Commands like <code>echo</code>, <code>cat</code>,
-      <code>touch</code>... ring any bells?"
+      {$translate('ui.shell_dialogue_1')}
     </p>
     <p class="choice-dialogue">
-      "I can teach you the basics before you climb. Three quick lessons
-      and you'll be ready for anything. Or, if you already know this stuff, take the
-      shortcut straight to Git."
+      {$translate('ui.shell_dialogue_2')}
     </p>
 
     <div class="choice-buttons">
       <button class="choice-btn choice-terminal" onclick={onTerminal}>
-        <span class="btn-label">LEARN THE BASICS</span>
-        <span class="btn-desc">3 lessons on terminal commands</span>
+        <span class="btn-label">{$translate('ui.learn_basics')}</span>
+        <span class="btn-desc">{$translate('ui.three_lessons')}</span>
       </button>
       <button class="choice-btn choice-skip" onclick={onSkip}>
-        <span class="btn-label">SKIP TO GIT</span>
-        <span class="btn-desc">I know my way around a terminal</span>
+        <span class="btn-label">{$translate('ui.skip_to_git')}</span>
+        <span class="btn-desc">{$translate('ui.know_terminal')}</span>
       </button>
     </div>
   </div>
@@ -95,14 +92,6 @@
     color: #c2c3c7;
     line-height: 1.6;
     margin: 0 0 12px;
-  }
-
-  .choice-dialogue code {
-    color: #00e436;
-    background: #00e43612;
-    padding: 1px 4px;
-    border-radius: 3px;
-    font-size: 11px;
   }
 
   .choice-buttons {

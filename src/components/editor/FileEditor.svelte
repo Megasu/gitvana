@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { translate } from '../../i18n/index.js';
   import { gitEngine } from '../../lib/engine/git/GitEngine.js';
   import { eventBus } from '../../lib/engine/events/GameEventBus.js';
 
@@ -12,9 +13,9 @@
   let content = $state('');
   let loading = $state(true);
   let saving = $state(false);
-  let textareaEl: HTMLTextAreaElement;
+  let textareaEl = $state<HTMLTextAreaElement>();
 
-  const fullPath = `${gitEngine.dir}/${filepath}`;
+  const fullPath = $derived(`${gitEngine.dir}/${filepath}`);
 
   async function loadFile() {
     try {
@@ -30,7 +31,7 @@
 
   async function save() {
     saving = true;
-    await gitEngine.fs.promises.writeFile(fullPath, content, { encoding: 'utf8' });
+    await gitEngine.fs.promises.writeFile(fullPath, content, 'utf8');
     saving = false;
     eventBus.emit('state:changed', undefined as never);
     onClose();
@@ -49,22 +50,22 @@
   loadFile();
 </script>
 
-<div class="editor-overlay" onkeydown={handleKeydown} role="dialog" aria-label="File editor">
+<div class="editor-overlay" onkeydown={handleKeydown} role="dialog" aria-label={$translate('ui.file_editor')} tabindex="-1">
   <div class="editor-card">
     <div class="editor-header">
       <span class="editor-filepath">{filepath}</span>
       <div class="editor-actions">
         <button class="btn-save" onclick={save} disabled={saving}>
-          {saving ? 'SAVING...' : 'SAVE'}
+          {saving ? $translate('ui.saving') : $translate('ui.save')}
         </button>
         <button class="btn-close" onclick={onClose}>ESC</button>
       </div>
     </div>
 
-    <div class="editor-hint">Ctrl/Cmd+S to save, Esc to cancel</div>
+    <div class="editor-hint">{$translate('ui.editor_hint')}</div>
 
     {#if loading}
-      <div class="editor-loading">Loading...</div>
+      <div class="editor-loading">{$translate('ui.loading')}</div>
     {:else}
       <textarea
         bind:this={textareaEl}

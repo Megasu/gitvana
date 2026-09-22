@@ -153,7 +153,7 @@ export async function generateShareImage(options: {
   ctx.textAlign = 'right';
   ctx.font = `14px ${monoFont}`;
   ctx.fillStyle = '#5f574f';
-  ctx.fillText('gitvana.pixari.dev', W - 120, bottomY);
+  ctx.fillText('gitvana.uinav.com', W - 120, bottomY);
 
   // Convert to blob
   return new Promise<Blob>((resolve, reject) => {

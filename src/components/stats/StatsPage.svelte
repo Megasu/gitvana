@@ -1,6 +1,7 @@
 <script lang="ts">
   import Navbar from '../shared/Navbar.svelte';
   import { onMount } from 'svelte';
+  import { t, translate } from '../../i18n/index.js';
 
   interface LevelStat {
     level_id: string;
@@ -27,22 +28,13 @@
   let error = $state<string | null>(null);
   let stats = $state<StatsData | null>(null);
 
-  const actNames: Record<string, string> = {
-    'act1': 'Act I: Basics',
-    'act2': 'Act II: Branching',
-    'act3': 'Act III: Conflicts',
-    'act4': 'Act IV: Rewriting',
-    'act5': 'Act V: Recovery',
-    'act6': 'Act VI: Collaboration',
-  };
-
   function getActKey(levelId: string): string {
     const match = levelId.match(/^(act\d+)/);
     return match ? match[1] : 'unknown';
   }
 
   function getActName(actKey: string): string {
-    return actNames[actKey] ?? actKey;
+    return actKey === 'unknown' ? actKey : t(`ui.stats_${actKey}`);
   }
 
   function formatLevelName(levelId: string): string {
@@ -94,7 +86,7 @@
     try {
       const res = await fetch('/api/stats/public');
       if (!res.ok) {
-        error = 'The monastery records are sealed. Check back later.';
+        error = t('ui.stats_error');
         return;
       }
       const data = await res.json();
@@ -103,7 +95,7 @@
         stats = null;
       }
     } catch {
-      error = 'The monastery records are sealed. Check back later.';
+      error = t('ui.stats_error');
     } finally {
       loading = false;
     }
@@ -115,13 +107,13 @@
 
   <div class="stats-content">
     <header class="stats-header">
-      <h1 class="stats-title">MONASTERY RECORDS</h1>
-      <p class="stats-subtitle">Anonymous telemetry from all monks</p>
+      <h1 class="stats-title">{$translate('ui.stats_title')}</h1>
+      <p class="stats-subtitle">{$translate('ui.stats_subtitle')}</p>
     </header>
 
     {#if loading}
       <div class="loading">
-        <span class="loading-dots">Loading<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></span>
+        <span class="loading-dots">{$translate('ui.loading')}<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></span>
       </div>
     {:else if error}
       <div class="error-message">
@@ -129,36 +121,36 @@
       </div>
     {:else if !stats}
       <div class="empty-message">
-        <p>No data yet. The monastery awaits its first monks.</p>
+        <p>{$translate('ui.stats_empty')}</p>
       </div>
     {:else}
       <!-- Section 1: Big Numbers -->
       <section class="big-numbers">
         <div class="stat-card" style="border-top-color: #ffa300">
           <span class="stat-number">{stats.totalSessions.toLocaleString()}</span>
-          <span class="stat-label">SESSIONS</span>
+          <span class="stat-label">{$translate('ui.stats_sessions')}</span>
         </div>
         <div class="stat-card" style="border-top-color: #00e436">
           <span class="stat-number">{stats.totalCompletions.toLocaleString()}</span>
-          <span class="stat-label">COMPLETIONS</span>
+          <span class="stat-label">{$translate('ui.stats_completions')}</span>
         </div>
         <div class="stat-card" style="border-top-color: #29adff">
           <span class="stat-number">{stats.totalSessions > 0 ? Math.round((stats.totalCompletions / stats.totalSessions) * 100) : 0}%</span>
-          <span class="stat-label">COMPLETION RATE</span>
+          <span class="stat-label">{$translate('ui.stats_completion_rate')}</span>
         </div>
         <div class="stat-card" style="border-top-color: #ff77a8">
           <span class="stat-number">{(stats.totalCommands ?? 0).toLocaleString()}</span>
-          <span class="stat-label">COMMANDS RUN</span>
+          <span class="stat-label">{$translate('ui.stats_commands_run')}</span>
         </div>
       </section>
 
       {#if stats.recentActivity !== undefined}
-        <p class="recent-activity">{stats.recentActivity} events in the last 24 hours</p>
+        <p class="recent-activity">{$translate('ui.stats_recent', { count: stats.recentActivity })}</p>
       {/if}
 
       <!-- Section 2: Level Completion Funnel -->
       <section class="section">
-        <h2 class="section-title">LEVEL COMPLETION FUNNEL</h2>
+        <h2 class="section-title">{$translate('ui.stats_funnel')}</h2>
         {#each Object.entries(groupByAct(stats.levelStats)) as [actKey, levels]}
           <h3 class="act-header">{getActName(actKey)}</h3>
           <div class="level-bars">
@@ -180,27 +172,27 @@
           </div>
         {/each}
         <div class="legend">
-          <span class="legend-item"><span class="legend-swatch" style="background: #5f574f"></span>Starts</span>
-          <span class="legend-item"><span class="legend-swatch" style="background: #00e436"></span>Completions</span>
-          <span class="legend-item"><span class="legend-swatch" style="background: #ffa300"></span>Restarts</span>
+          <span class="legend-item"><span class="legend-swatch" style="background: #5f574f"></span>{$translate('ui.stats_starts')}</span>
+          <span class="legend-item"><span class="legend-swatch" style="background: #00e436"></span>{$translate('ui.stats_completions')}</span>
+          <span class="legend-item"><span class="legend-swatch" style="background: #ffa300"></span>{$translate('ui.stats_restarts')}</span>
         </div>
       </section>
 
       <!-- Section 3: Hardest Levels -->
       <section class="section">
-        <h2 class="section-title">HARDEST LEVELS</h2>
-        <p class="section-desc">Levels that need the most balancing</p>
+        <h2 class="section-title">{$translate('ui.stats_hardest')}</h2>
+        <p class="section-desc">{$translate('ui.stats_hardest_desc')}</p>
         <div class="hardest-list">
           {#each hardestLevels(stats.levelStats) as level, i}
             <div class="hardest-row">
               <span class="hardest-rank">#{i + 1}</span>
               <span class="hardest-name">{formatLevelName(level.level_id)}</span>
               <span class="hardest-rate" style="color: {rateColor(level.rate)}">{level.rate}%</span>
-              <span class="hardest-restarts" title="Restarts">{level.restarts} ↻</span>
+              <span class="hardest-restarts" title={$translate('ui.stats_restarts')}>{level.restarts} ↻</span>
             </div>
           {/each}
           {#if hardestLevels(stats.levelStats).length === 0}
-            <p class="empty-note">Not enough data yet.</p>
+            <p class="empty-note">{$translate('ui.stats_not_enough')}</p>
           {/if}
         </div>
       </section>
@@ -208,7 +200,7 @@
       <!-- Section 4: Most Popular Commands -->
       {#if stats.topCommands && stats.topCommands.length > 0}
         <section class="section">
-          <h2 class="section-title">MOST POPULAR COMMANDS</h2>
+          <h2 class="section-title">{$translate('ui.stats_popular_commands')}</h2>
           <div class="command-list">
             {#each stats.topCommands as cmd}
               {@const maxCmd = Math.max(...stats!.topCommands.map(c => c.count), 1)}

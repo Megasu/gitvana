@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import UnoCSS from 'unocss/vite';
 import { fileURLToPath } from 'url';
@@ -30,5 +30,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  test: {
+    exclude: ['tests/e2e/**', 'node_modules/**', 'dist/**'],
   },
 });

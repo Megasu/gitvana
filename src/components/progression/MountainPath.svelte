@@ -26,7 +26,7 @@
   }
 
   function saveEdit() {
-    const name = editValue.trim() || 'Anonymous Monk';
+    const name = editValue.trim() || $translate('ui.anonymous_monk');
     savePlayerName(name);
     onNameChange?.(name);
     editing = false;
@@ -85,8 +85,8 @@
             autofocus
           />
         {:else}
-          <button class="name-display" onclick={startEdit} title="Click to edit name">
-            {playerName || 'Anonymous Monk'} <span class="edit-icon">✎</span>
+          <button class="name-display" onclick={startEdit} title={$translate('ui.edit_name')}>
+            {playerName === 'Anonymous Monk' || !playerName ? $translate('ui.anonymous_monk') : playerName} <span class="edit-icon">✎</span>
           </button>
         {/if}
         <span class="hud-count">{completedLevels}<span class="hud-count-total">/{TOTAL_LEVELS}</span></span>
@@ -102,14 +102,14 @@
       <div class="hud-bottom">
         <span class="hud-desc">{$translate(`stages.stage_${currentStage.id}_description`)}</span>
         {#if nextStage}
-          <span class="hud-next">{nextStage.minLevels - completedLevels} to {$translate(`stages.stage_${nextStage.id}_name`)}</span>
+          <span class="hud-next">{$translate('ui.levels_to_stage', { count: nextStage.minLevels - completedLevels, stage: $translate(`stages.stage_${nextStage.id}_name`) })}</span>
         {/if}
       </div>
 
       <!-- Current level info -->
       {#if levelTitle}
         <div class="hud-level-info">
-          <span class="hud-level-badge">ACT {levelAct} — LV {levelOrder}</span>
+          <span class="hud-level-badge">{$translate('ui.act_level', { act: levelAct ?? 0, order: levelOrder ?? 0 })}</span>
           <span class="hud-level-title">{levelTitle}</span>
         </div>
       {/if}
@@ -126,7 +126,7 @@
   <div class="journey">
     <!-- Header -->
     <div class="journey-header">
-      <span class="journey-title">YOUR JOURNEY</span>
+      <span class="journey-title">{$translate('ui.your_journey')}</span>
       <span class="journey-count" style="color: {currentStage.glowColor}">{completedLevels}/{TOTAL_LEVELS}</span>
     </div>
 
@@ -178,7 +178,7 @@
               {#if isCurrent}
                 <div class="stage-desc">{$translate(`stages.stage_${stage.id}_description`)}</div>
                 {#if nextStage}
-                  <div class="stage-next">{nextStage.minLevels - completedLevels} more level{nextStage.minLevels - completedLevels === 1 ? '' : 's'} to {$translate(`stages.stage_${nextStage.id}_name`)}</div>
+                  <div class="stage-next">{$translate('ui.levels_to_stage', { count: nextStage.minLevels - completedLevels, stage: $translate(`stages.stage_${nextStage.id}_name`) })}</div>
                 {/if}
               {/if}
             </div>

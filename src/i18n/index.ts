@@ -15,16 +15,18 @@ export const availableLocales: { code: string; label: string }[] = [
   { code: 'es', label: 'Español' },
 ];
 
-// Detect browser language, fallback to 'zh' (default site language)
+// Detect browser language. Chinese browsers use zh; unsupported languages
+// fall back to English so adding Chinese does not change the experience for
+// every other locale.
 function detectLocale(): string {
-  const saved = localStorage.getItem(LOCALE_KEY);
-  if (saved) return saved;
-  const lang = navigator.language || 'zh';
+  const saved = typeof localStorage !== 'undefined' ? localStorage.getItem(LOCALE_KEY) : null;
+  if (saved && availableLocales.some(l => l.code === saved)) return saved;
+  const lang = typeof navigator !== 'undefined' ? navigator.language || 'en' : 'en';
   if (availableLocales.some(l => l.code === lang)) return lang;
   // Fall back from a region variant (es-MX) to its base language (es)
   const base = lang.split('-')[0];
   const baseMatch = availableLocales.find(l => l.code.split('-')[0] === base);
-  return baseMatch ? baseMatch.code : 'zh';
+  return baseMatch ? baseMatch.code : 'en';
 }
 
 export const locale = writable<string>(detectLocale());
@@ -51,7 +53,7 @@ function loadNamespaces(code: string): Record<string, Record<string, string>> {
 }
 
 export function setLocale(code: string) {
-  localStorage.setItem(LOCALE_KEY, code);
+  if (typeof localStorage !== 'undefined') localStorage.setItem(LOCALE_KEY, code);
   loadLocale(code);
   locale.set(code);
 }

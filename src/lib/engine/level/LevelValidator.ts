@@ -1,6 +1,7 @@
 import git from 'isomorphic-git';
 import type { GitEngine } from '../git/GitEngine.js';
 import type { ValidatorConfig, ValidationResult } from '../../../levels/schema.js';
+import { t } from '../../../i18n/index.js';
 
 export class LevelValidator {
   constructor(private engine: GitEngine) {}
@@ -57,7 +58,7 @@ export class LevelValidator {
         case 'pushed-to-remote':
           return await this.validatePushedToRemote(validator);
         default:
-          return { validator, passed: false, message: `Unknown validator: ${validator.type}` };
+          return { validator, passed: false, message: t('ui.validator_unknown', { type: validator.type }) };
       }
     } catch (err) {
       return {
@@ -77,7 +78,7 @@ export class LevelValidator {
     try {
       await this.engine.fs.promises.stat(fullPath);
     } catch {
-      return { validator, passed: false, message: `File '${path}' does not exist` };
+      return { validator, passed: false, message: t('ui.validator_file_missing', { path }) };
     }
 
     if (tracked === false) {
@@ -86,14 +87,14 @@ export class LevelValidator {
         const matrix = await git.statusMatrix({ fs: this.engine.fs, dir: this.engine.dir });
         const entry = matrix.find(([f]) => f === path);
         if (entry && entry[3] !== 0) {
-          return { validator, passed: false, message: `File '${path}' should not be tracked` };
+          return { validator, passed: false, message: t('ui.validator_file_untracked', { path }) };
         }
       } catch {
         // statusMatrix fails on repos with no commits — nothing is tracked
       }
     }
 
-    return { validator, passed: true, message: `File '${path}' exists` };
+    return { validator, passed: true, message: t('ui.validator_file_exists', { path }) };
   }
 
   private async validateFileContent(
@@ -112,24 +113,24 @@ export class LevelValidator {
       const content = (await this.engine.fs.promises.readFile(fullPath, 'utf8')) as string;
 
       if (equals !== undefined && content.trim() !== equals.trim()) {
-        return { validator, passed: false, message: `File '${path}' content doesn't match expected` };
+        return { validator, passed: false, message: t('ui.validator_content_mismatch', { path }) };
       }
 
       if (contains !== undefined && !content.includes(contains)) {
-        return { validator, passed: false, message: `File '${path}' doesn't contain '${contains}'` };
+        return { validator, passed: false, message: t('ui.validator_missing_content', { path, text: contains }) };
       }
 
       if (containsAlso !== undefined && !content.includes(containsAlso)) {
-        return { validator, passed: false, message: `File '${path}' doesn't contain '${containsAlso}'` };
+        return { validator, passed: false, message: t('ui.validator_missing_content', { path, text: containsAlso }) };
       }
 
       if (notContains !== undefined && content.includes(notContains)) {
-        return { validator, passed: false, message: `File '${path}' should not contain '${notContains}'` };
+        return { validator, passed: false, message: t('ui.validator_forbidden_content', { path, text: notContains }) };
       }
 
-      return { validator, passed: true, message: `File '${path}' content matches` };
+      return { validator, passed: true, message: t('ui.validator_content_matches', { path }) };
     } catch {
-      return { validator, passed: false, message: `Cannot read file '${path}'` };
+      return { validator, passed: false, message: t('ui.validator_cannot_read', { path }) };
     }
   }
 
@@ -143,10 +144,10 @@ export class LevelValidator {
       return {
         validator,
         passed: exists,
-        message: exists ? `Branch '${name}' exists` : `Branch '${name}' not found`,
+        message: exists ? t('ui.validator_branch_exists', { name }) : t('ui.validator_branch_missing', { name }),
       };
     } catch {
-      return { validator, passed: false, message: `Branch '${name}' not found` };
+      return { validator, passed: false, message: t('ui.validator_branch_missing', { name }) };
     }
   }
 
@@ -161,10 +162,10 @@ export class LevelValidator {
       return {
         validator,
         passed: match,
-        message: match ? `HEAD is at '${target}'` : `HEAD is at '${current}', expected '${target}'`,
+        message: match ? t('ui.validator_head_at', { name: target }) : t('ui.validator_head_expected', { current: current ?? '—', expected: target }),
       };
     } catch {
-      return { validator, passed: false, message: `HEAD not found` };
+      return { validator, passed: false, message: t('ui.validator_head_missing') };
     }
   }
 
@@ -185,8 +186,8 @@ export class LevelValidator {
           validator,
           passed: match,
           message: match
-            ? `${commits.length} commits (exactly ${params.count})`
-            : `${commits.length} commits, need exactly ${params.count}`,
+            ? t('ui.validator_commit_count_exact', { count: commits.length })
+            : t('ui.validator_commit_count_need_exact', { count: commits.length, required: params.count }),
         };
       }
 
@@ -196,7 +197,7 @@ export class LevelValidator {
         return {
           validator,
           passed: false,
-          message: `Only ${commits.length} commits, need at least ${required}`,
+          message: t('ui.validator_only_commits', { count: commits.length, required }),
         };
       }
 
@@ -205,18 +206,20 @@ export class LevelValidator {
         return {
           validator,
           passed: false,
-          message: `${commits.length} commits, need at most ${params.max}`,
+          message: t('ui.validator_commit_count_max', { count: commits.length, max: params.max }),
         };
       }
 
       return {
         validator,
         passed: true,
-        message: `${commits.length} commits (need ${required}${params.max !== undefined ? `-${params.max}` : '+'})`,
+        message: params.max !== undefined
+          ? t('ui.validator_commit_count_range', { count: commits.length, min: required, max: params.max })
+          : t('ui.validator_commit_count_min_met', { count: commits.length, min: required }),
       };
     } catch {
       const required = params.count ?? params.min ?? 0;
-      return { validator, passed: required === 0, message: `Need ${required} commit${required === 1 ? '' : 's'}` };
+      return { validator, passed: required === 0, message: t('ui.validator_commits_needed', { count: required }) };
     }
   }
 
@@ -230,7 +233,7 @@ export class LevelValidator {
       return {
         validator,
         passed: empty,
-        message: empty ? 'Staging area is empty' : `${staged.length} files still staged`,
+        message: empty ? t('ui.validator_staging_empty') : t('ui.validator_files_staged', { count: staged.length }),
       };
     } catch {
       // No commits yet — check index directly
@@ -240,10 +243,10 @@ export class LevelValidator {
         return {
           validator,
           passed: empty,
-          message: empty ? 'Staging area is empty' : `${indexed.length} files staged`,
+          message: empty ? t('ui.validator_staging_empty') : t('ui.validator_files_staged', { count: indexed.length }),
         };
       } catch {
-        return { validator, passed: true, message: 'Staging area is empty' };
+        return { validator, passed: true, message: t('ui.validator_staging_empty') };
       }
     }
   }
@@ -258,7 +261,7 @@ export class LevelValidator {
     try {
       const commits = await git.log({ fs: this.engine.fs, dir: this.engine.dir, depth: 50 });
       if (commits.length === 0 && needle) {
-        return { validator, passed: false, message: `Need commit with '${needle}'` };
+        return { validator, passed: false, message: t('ui.validator_commit_needed', { text: needle }) };
       }
 
       if (needle) {
@@ -266,7 +269,7 @@ export class LevelValidator {
           c.commit.message.toLowerCase().includes(needle.toLowerCase()),
         );
         if (!found) {
-          return { validator, passed: false, message: `No commit message contains '${needle}'` };
+          return { validator, passed: false, message: t('ui.validator_no_commit_message', { text: needle }) };
         }
       }
 
@@ -275,13 +278,13 @@ export class LevelValidator {
           c.commit.message.toLowerCase().includes(forbidden.toLowerCase()),
         );
         if (hasForbidden) {
-          return { validator, passed: false, message: `History still contains '${forbidden}' commits` };
+          return { validator, passed: false, message: t('ui.validator_history_contains', { text: forbidden }) };
         }
       }
 
-      return { validator, passed: true, message: 'Commit messages match' };
+      return { validator, passed: true, message: t('ui.validator_commit_messages_match') };
     } catch {
-      return { validator, passed: false, message: `Need commit with '${needle}'` };
+      return { validator, passed: false, message: t('ui.validator_commit_needed', { text: needle }) };
     }
   }
 
@@ -292,11 +295,11 @@ export class LevelValidator {
       const commits = await git.log({ fs: this.engine.fs, dir: this.engine.dir, depth: 20 });
       const mergeCommit = commits.find((c) => c.commit.parent.length >= 2);
       if (mergeCommit) {
-        return { validator, passed: true, message: 'Merge commit found' };
+        return { validator, passed: true, message: t('ui.validator_merge_found') };
       }
-      return { validator, passed: false, message: 'No merge commit found' };
+      return { validator, passed: false, message: t('ui.validator_merge_missing') };
     } catch {
-      return { validator, passed: false, message: 'No merge commit found' };
+      return { validator, passed: false, message: t('ui.validator_merge_missing') };
     }
   }
 
@@ -311,13 +314,13 @@ export class LevelValidator {
         try {
           const content = await this.engine.fs.promises.readFile(`${this.engine.dir}/${entry}`, 'utf8') as string;
           if (content.includes('<<<<<<<') || content.includes('>>>>>>>')) {
-            return { validator, passed: false, message: `File '${entry}' still has conflict markers` };
+            return { validator, passed: false, message: t('ui.validator_conflict_markers', { path: entry }) };
           }
         } catch { /* skip non-readable */ }
       }
-      return { validator, passed: true, message: 'No conflict markers found' };
+      return { validator, passed: true, message: t('ui.validator_no_conflicts') };
     } catch {
-      return { validator, passed: true, message: 'No conflict markers found' };
+      return { validator, passed: true, message: t('ui.validator_no_conflicts') };
     }
   }
 
@@ -331,10 +334,10 @@ export class LevelValidator {
       return {
         validator,
         passed: !exists,
-        message: exists ? `Branch '${name}' still exists` : `Branch '${name}' deleted`,
+        message: exists ? t('ui.validator_branch_still_exists', { name }) : t('ui.validator_branch_deleted', { name }),
       };
     } catch {
-      return { validator, passed: true, message: `Branch '${name}' deleted` };
+      return { validator, passed: true, message: t('ui.validator_branch_deleted', { name }) };
     }
   }
 
@@ -347,11 +350,11 @@ export class LevelValidator {
       const commits = await git.log({ fs: this.engine.fs, dir: this.engine.dir, ref, depth: 50 });
       const mergeCommit = commits.find((c) => c.commit.parent.length >= 2);
       if (mergeCommit) {
-        return { validator, passed: false, message: `Found merge commit: "${mergeCommit.commit.message.trim()}"` };
+        return { validator, passed: false, message: t('ui.validator_merge_unexpected', { message: mergeCommit.commit.message.trim() }) };
       }
-      return { validator, passed: true, message: 'No merge commits — history is linear' };
+      return { validator, passed: true, message: t('ui.validator_history_linear') };
     } catch {
-      return { validator, passed: true, message: 'No merge commits' };
+      return { validator, passed: true, message: t('ui.validator_no_merge_commits') };
     }
   }
 
@@ -362,9 +365,9 @@ export class LevelValidator {
     const fullPath = `${this.engine.dir}/${path}`;
     try {
       await this.engine.fs.promises.stat(fullPath);
-      return { validator, passed: false, message: `File '${path}' should not exist` };
+      return { validator, passed: false, message: t('ui.validator_file_should_not_exist', { path }) };
     } catch {
-      return { validator, passed: true, message: `File '${path}' does not exist (correct)` };
+      return { validator, passed: true, message: t('ui.validator_file_absent', { path }) };
     }
   }
 
@@ -378,10 +381,10 @@ export class LevelValidator {
       return {
         validator,
         passed: exists,
-        message: exists ? `Tag '${name}' exists` : `Tag '${name}' not found`,
+        message: exists ? t('ui.validator_tag_exists', { name }) : t('ui.validator_tag_missing', { name }),
       };
     } catch {
-      return { validator, passed: false, message: `Tag '${name}' not found` };
+      return { validator, passed: false, message: t('ui.validator_tag_missing', { name }) };
     }
   }
 
@@ -393,7 +396,7 @@ export class LevelValidator {
     return {
       validator,
       passed: exists,
-      message: exists ? `Remote '${name}' exists` : `Remote '${name}' not found`,
+      message: exists ? t('ui.validator_remote_exists', { name }) : t('ui.validator_remote_missing', { name }),
     };
   }
 
@@ -407,9 +410,9 @@ export class LevelValidator {
         dir: this.engine.dir,
         ref: `refs/remotes/${remote}/${branch}`,
       });
-      return { validator, passed: true, message: `Tracking ref '${remote}/${branch}' exists` };
+      return { validator, passed: true, message: t('ui.validator_tracking_exists', { remote, branch }) };
     } catch {
-      return { validator, passed: false, message: `Tracking ref '${remote}/${branch}' not found — did you fetch or push?` };
+      return { validator, passed: false, message: t('ui.validator_tracking_missing', { remote, branch }) };
     }
   }
 
@@ -419,23 +422,23 @@ export class LevelValidator {
     const { remote, branch } = validator.params as { remote: string; branch: string };
     const remoteInfo = this.engine.remotes.get(remote);
     if (!remoteInfo) {
-      return { validator, passed: false, message: `Remote '${remote}' not found` };
+      return { validator, passed: false, message: t('ui.validator_remote_missing', { name: remote }) };
     }
     try {
       // Check that the remote repo has the branch
       const remoteBranches = await git.listBranches({ fs: this.engine.fs, dir: remoteInfo.dir });
       if (!remoteBranches.includes(branch)) {
-        return { validator, passed: false, message: `Branch '${branch}' not pushed to '${remote}'` };
+        return { validator, passed: false, message: t('ui.validator_branch_not_pushed', { branch, remote }) };
       }
       // Check that local and remote are in sync
       const localOid = await git.resolveRef({ fs: this.engine.fs, dir: this.engine.dir, ref: branch });
       const remoteOid = await git.resolveRef({ fs: this.engine.fs, dir: remoteInfo.dir, ref: branch });
       if (localOid !== remoteOid) {
-        return { validator, passed: false, message: `Branch '${branch}' is not in sync with '${remote}'` };
+        return { validator, passed: false, message: t('ui.validator_branch_out_of_sync', { branch, remote }) };
       }
-      return { validator, passed: true, message: `Branch '${branch}' pushed to '${remote}'` };
+      return { validator, passed: true, message: t('ui.validator_branch_pushed', { branch, remote }) };
     } catch (err) {
-      return { validator, passed: false, message: `Push check failed: ${err instanceof Error ? err.message : err}` };
+      return { validator, passed: false, message: t('ui.validator_push_check_failed', { error: err instanceof Error ? err.message : String(err) }) };
     }
   }
 }

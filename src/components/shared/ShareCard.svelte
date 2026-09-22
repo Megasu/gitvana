@@ -2,7 +2,7 @@
   import type { Stage } from '../../lib/engine/progression/stages.js';
   import { TOTAL_LEVELS } from '../../lib/engine/progression/stages.js';
   import { generateShareImage } from './ShareImage.js';
-  import { t } from '../../i18n/index.js';
+  import { t, translate } from '../../i18n/index.js';
 
   interface Props {
     levelTitle: string;
@@ -27,13 +27,11 @@
   const stageName = $derived(t(`stages.stage_${stage.id}_name`));
 
   const shareUrl = $derived(
-    `https://gitvana.pixari.dev/#/share?name=${encodeURIComponent(playerName || 'Anonymous Monk')}&level=${levelOrder}&title=${encodeURIComponent(levelTitle)}&stars=${stars}&cmds=${commandCount}&stage=${encodeURIComponent(stageName)}&completed=${completedLevels}`
+    `https://gitvana.uinav.com/#/share?name=${encodeURIComponent(playerName || 'Anonymous Monk')}&level=${levelOrder}&title=${encodeURIComponent(levelTitle)}&stars=${stars}&cmds=${commandCount}&stage=${encodeURIComponent(stageName)}&completed=${completedLevels}`
   );
 
   const starsEmoji = $derived('⭐'.repeat(stars));
-  const tweetText = $derived(
-    encodeURIComponent(`I just completed Level ${levelOrder}: ${levelTitle} with ${starsEmoji} on @gitvana! Can you beat my score?`)
-  );
+  const tweetText = $derived(encodeURIComponent(t('ui.share_social_text', { level: levelOrder, title: levelTitle, stars: starsEmoji })));
 
   $effect(() => {
     webShareAvailable = typeof navigator !== 'undefined' && !!navigator.share;
@@ -100,8 +98,8 @@
     try {
       const file = new File([imageBlob], 'gitvana-achievement.png', { type: 'image/png' });
       await navigator.share({
-        title: 'GITVANA — Stage Clear!',
-        text: `I completed Level ${levelOrder}: ${levelTitle} with ${stars} star${stars !== 1 ? 's' : ''}!`,
+        title: t('ui.share_stage_clear'),
+        text: t('ui.share_completed_text', { level: levelOrder, title: levelTitle, stars }),
         url: shareUrl,
         files: [file],
       });
@@ -111,17 +109,17 @@
   }
 </script>
 
-<div class="share-overlay" role="dialog" aria-label="Share your result">
+<div class="share-overlay" role="dialog" aria-label={$translate('ui.share_result')}>
   <div class="share-card">
-    <div class="share-header">SHARE RESULT</div>
+    <div class="share-header">{$translate('ui.share_result')}</div>
 
     <div class="image-preview">
       {#if generating}
-        <div class="generating">Generating image...</div>
+        <div class="generating">{$translate('ui.share_generating')}</div>
       {:else if imageUrl}
-        <img src={imageUrl} alt="Share card preview" class="preview-img" />
+        <img src={imageUrl} alt={$translate('ui.share_preview')} class="preview-img" />
       {:else}
-        <div class="generating">Failed to generate image</div>
+        <div class="generating">{$translate('ui.share_failed')}</div>
       {/if}
     </div>
 
@@ -143,20 +141,20 @@
         in
       </a>
       <button class="share-btn btn-copy" onclick={copyLink}>
-        {copied ? 'COPIED!' : 'COPY LINK'}
+        {copied ? $translate('ui.copied') : $translate('ui.copy_link')}
       </button>
       <button class="share-btn btn-download" onclick={downloadImage} disabled={!imageBlob}>
-        DOWNLOAD
+        {$translate('ui.download')}
       </button>
       {#if webShareAvailable}
         <button class="share-btn btn-share" onclick={webShare} disabled={!imageBlob}>
-          SHARE
+          {$translate('ui.share')}
         </button>
       {/if}
     </div>
 
     {#if onClose}
-      <button class="close-btn" onclick={onClose}>CLOSE</button>
+      <button class="close-btn" onclick={onClose}>{$translate('ui.close')}</button>
     {/if}
   </div>
 </div>

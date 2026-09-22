@@ -5,6 +5,7 @@
   import '@xterm/xterm/css/xterm.css';
   import { ShellBridge } from '../../lib/engine/shell/ShellBridge.js';
   import { gitEngine } from '../../lib/engine/git/GitEngine.js';
+  import { t, translate } from '../../i18n/index.js';
 
   let terminalEl: HTMLDivElement;
   let terminal: Terminal;
@@ -29,7 +30,7 @@
 
   const SOUND_KEY = 'gitvana-sound-enabled';
   let soundEnabled = $state(localStorage.getItem(SOUND_KEY) !== 'false');
-  soundManager.setEnabled(soundEnabled);
+  soundManager.setEnabled(localStorage.getItem(SOUND_KEY) !== 'false');
 
   function toggleSound() {
     soundEnabled = !soundEnabled;
@@ -80,17 +81,18 @@
 
     // Welcome message
     terminal.writeln('\x1b[33m╔════════════════════════════════════════╗\x1b[0m');
-    terminal.writeln('\x1b[33m║\x1b[0m   \x1b[32mGITVANA\x1b[0m - Reach git enlightenment    \x1b[33m║\x1b[0m');
+    terminal.writeln(`\x1b[33m║\x1b[0m   \x1b[32mGITVANA\x1b[0m - ${t('ui.terminal_tagline')}    \x1b[33m║\x1b[0m`);
     terminal.writeln('\x1b[33m╚════════════════════════════════════════╝\x1b[0m');
     terminal.writeln('');
     if (playerName) {
-      terminal.writeln(`Welcome back, \x1b[33m${playerName}\x1b[0m.`);
+      const displayName = playerName === 'Anonymous Monk' ? t('ui.anonymous_monk') : playerName;
+      terminal.writeln(t('ui.welcome_back', { name: `\x1b[33m${displayName}\x1b[0m` }));
     } else {
-      terminal.writeln('Welcome to the Monastery of Version Control.');
+      terminal.writeln(t('ui.welcome_monastery'));
     }
-    terminal.writeln('You look lost. That\'s normal. Everyone starts lost.');
+    terminal.writeln(t('ui.welcome_lost'));
     terminal.writeln('');
-    terminal.writeln('Type \x1b[36mhelp\x1b[0m if you need a hand. No shame in it.');
+    terminal.writeln(t('ui.welcome_help').replace('help', '\x1b[36mhelp\x1b[0m'));
     terminal.writeln('');
 
     bridge = new ShellBridge(terminal, gitEngine);
@@ -124,21 +126,21 @@
     <span class="terminal-dot red"></span>
     <span class="terminal-dot yellow"></span>
     <span class="terminal-dot green"></span>
-    <span class="terminal-title">TERMINAL</span>
-    <span class="alpha-tag">ALPHA</span>
+    <span class="terminal-title">{$translate('ui.terminal')}</span>
+    <span class="alpha-tag">{$translate('ui.alpha')}</span>
     <div class="header-actions">
-      <button class="header-btn icon-btn" onclick={() => onAbout?.()} title="Home">🏠</button>
-      <button class="header-btn icon-btn" onclick={toggleSound} title={soundEnabled ? 'Mute' : 'Unmute'}>
+      <button class="header-btn icon-btn" onclick={() => onAbout?.()} title={$translate('ui.home')}>🏠</button>
+      <button class="header-btn icon-btn" onclick={toggleSound} title={soundEnabled ? $translate('ui.mute') : $translate('ui.unmute')}>
         {soundEnabled ? '🔊' : '🔇'}
       </button>
-      <button class="header-btn undo-btn" onclick={handleUndo} title="Undo last git command">↶ UNDO</button>
-      <button class="header-btn icon-btn" onclick={() => onRestart?.()} title="Restart level">↺</button>
-      <a class="header-btn" href="#/docs" title="Docs">DOCS</a>
-      <a class="header-btn icon-btn coffee" href="https://buymeacoffee.com/pixari" target="_blank" rel="noopener noreferrer" title="Buy me a coffee">☕</a>
+      <button class="header-btn undo-btn" onclick={handleUndo} title={$translate('ui.undo_last_command')}>↶ {$translate('ui.undo')}</button>
+      <button class="header-btn icon-btn" onclick={() => onRestart?.()} title={$translate('ui.restart')}>↺</button>
+      <a class="header-btn" href="#/docs" title={$translate('ui.docs')}>{$translate('ui.docs')}</a>
+      <a class="header-btn icon-btn coffee" href="https://buymeacoffee.com/pixari" target="_blank" rel="noopener noreferrer" title={$translate('ui.buy_coffee')}>☕</a>
       <a class="header-btn" href="https://github.com/pixari/gitvana" target="_blank" rel="noopener noreferrer" title="GitHub">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       </a>
-      <a class="header-btn bug-btn" href="https://github.com/pixari/gitvana/issues/new" target="_blank" rel="noopener noreferrer" title="Report a bug">🐛 BUG</a>
+      <a class="header-btn bug-btn" href="https://github.com/pixari/gitvana/issues/new" target="_blank" rel="noopener noreferrer" title={$translate('ui.report_bug')}>🐛 {$translate('ui.report_bug')}</a>
     </div>
   </div>
   <div class="terminal-body" bind:this={terminalEl}></div>

@@ -2,9 +2,10 @@
 // Measures: of every NON-EMPTY English string slot, how many have a
 // non-empty Chinese value? (Blank-in-both is fine and not penalized.)
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-const root = join(import.meta.dir, '..');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const i18n = join(root, 'src/i18n');
 
 const load = p => JSON.parse(readFileSync(p, 'utf8'));
@@ -41,7 +42,8 @@ for (const ns of ['ui', 'stages', 'hints']) {
   let e = 0, z = 0;
   for (const [k, v] of Object.entries(en)) {
     if (blank(v)) continue;
-    e++; if (!blank(zh[k])) z++;
+    e++; EN++;
+    if (!blank(zh[k])) { z++; ZH++; }
   }
   console.log(`- ${ns}.json: ${z}/${e} 非空英文串已填充 => ${pct(z, e)}`);
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { generateShareImage } from './ShareImage.js';
   import { getStage, TOTAL_LEVELS } from '../../lib/engine/progression/stages.js';
-  import { t } from '../../i18n/index.js';
+  import { t, translate } from '../../i18n/index.js';
 
   interface ShareParams {
     name: string;
@@ -48,11 +48,9 @@
   });
 
   const starsDisplay = $derived('⭐'.repeat(params.stars));
-  const siteUrl = 'https://gitvana.pixari.dev';
+  const siteUrl = 'https://gitvana.uinav.com';
 
-  const tweetText = $derived(
-    encodeURIComponent(`I just completed Level ${params.level}: ${params.title} with ${starsDisplay} on @gitvana! Can you beat my score?`)
-  );
+  const tweetText = $derived(encodeURIComponent(t('ui.share_social_text', { level: params.level, title: params.title, stars: starsDisplay })));
   const currentUrl = $derived(encodeURIComponent(window.location.href));
 
   let copied = $state(false);
@@ -83,36 +81,36 @@
 <div class="share-page">
   <div class="share-content">
     <div class="brand">GITVANA</div>
-    <h1 class="achievement-text">{params.name} achieved {params.stage || stageName} on Gitvana!</h1>
+    <h1 class="achievement-text">{$translate('ui.share_achievement', { name: params.name, stage: params.stage || stageName })}</h1>
 
     <div class="card-container">
       {#if imageUrl}
-        <img src={imageUrl} alt="Achievement card" class="achievement-img" />
+        <img src={imageUrl} alt={$translate('ui.share_achievement_card')} class="achievement-img" />
       {:else}
-        <div class="loading">Generating achievement card...</div>
+        <div class="loading">{$translate('ui.share_generating')}</div>
       {/if}
     </div>
 
     <div class="details">
       <div class="detail-row">
-        <span class="detail-label">Level</span>
+        <span class="detail-label">{$translate('ui.level')}</span>
         <span class="detail-value">{params.level}: {params.title}</span>
       </div>
       <div class="detail-row">
-        <span class="detail-label">Stars</span>
-        <span class="detail-value">{starsDisplay || 'None'}</span>
+        <span class="detail-label">{$translate('ui.stars')}</span>
+        <span class="detail-value">{starsDisplay || $translate('ui.none')}</span>
       </div>
       <div class="detail-row">
-        <span class="detail-label">Commands</span>
+        <span class="detail-label">{$translate('ui.commands')}</span>
         <span class="detail-value">{params.cmds}</span>
       </div>
       <div class="detail-row">
-        <span class="detail-label">Player</span>
+        <span class="detail-label">{$translate('ui.player')}</span>
         <span class="detail-value">{params.name}</span>
       </div>
     </div>
 
-    <a href={siteUrl} class="cta-btn">PLAY GITVANA</a>
+    <a href={siteUrl} class="cta-btn">{$translate('ui.play_gitvana')}</a>
 
     <div class="social-buttons">
       <a
@@ -121,7 +119,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="social-icon">&#x1D54F;</span> SHARE ON X
+        <span class="social-icon">&#x1D54F;</span> {$translate('ui.share_on_x')}
       </a>
       <a
         class="social-btn btn-linkedin"
@@ -132,10 +130,10 @@
         <span class="social-icon">in</span> LINKEDIN
       </a>
       <button class="social-btn btn-copy" onclick={copyLink}>
-        {copied ? 'COPIED!' : 'COPY LINK'}
+        {copied ? $translate('ui.copied') : $translate('ui.copy_link')}
       </button>
       <button class="social-btn btn-download" onclick={downloadImage} disabled={!imageBlob}>
-        DOWNLOAD
+        {$translate('ui.download')}
       </button>
     </div>
   </div>

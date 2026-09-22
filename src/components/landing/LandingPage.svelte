@@ -36,7 +36,7 @@
   <section class="hero">
     <img
       src="/sprites/landing-monastery.png"
-      alt="Monastery of Version Control"
+      alt={$translate('ui.monastery_alt')}
       class="hero-bg"
     />
     <div class="hero-overlay"></div>
@@ -128,7 +128,7 @@
   <!-- Section 6: Final CTA + Author -->
   <section class="final-cta">
     <div class="section-inner">
-      <img src="/sprites/landing-monk.png" alt="Meditating monk" class="cta-monk" />
+      <img src="/sprites/landing-monk.png" alt={$translate('ui.meditating_monk_alt')} class="cta-monk" />
       <h2 class="cta-title">{$translate('ui.landing_final_cta_title')}</h2>
       <button class="play-btn" onclick={onPlay}>
         <span>{isReturning ? $translate('ui.landing_continue') : $translate('ui.landing_play')}</span>

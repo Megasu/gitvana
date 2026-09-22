@@ -1,6 +1,7 @@
 <script lang="ts">
-  const url = 'https://gitvana.pixari.dev';
-  const text = 'Learn git by playing — a retro browser game with real terminal commands. Free!';
+  import { translate } from '../../i18n/index.js';
+  const url = 'https://gitvana.uinav.com';
+  const text = $derived($translate('ui.share_site_text'));
 
   let open = $state(false);
   let copied = $state(false);
@@ -35,7 +36,7 @@
 </script>
 
 <div class="share-widget">
-  <button class="share-toggle" onclick={() => open = !open} title="Share Gitvana">
+  <button class="share-toggle" onclick={() => open = !open} title={$translate('ui.share_gitvana')}>
     {open ? '✕' : '↗'}
   </button>
 
@@ -59,12 +60,12 @@
       </button>
       <button class="share-item" onclick={copyLink}>
         <span class="share-icon">{copied ? '✓' : '🔗'}</span>
-        <span>{copied ? 'Copied!' : 'Copy link'}</span>
+        <span>{copied ? $translate('ui.copied') : $translate('ui.copy_link')}</span>
       </button>
-      {#if typeof navigator !== 'undefined' && navigator.share}
+      {#if typeof navigator !== 'undefined' && typeof navigator.share === 'function'}
         <button class="share-item" onclick={nativeShare}>
           <span class="share-icon">📤</span>
-          <span>Share...</span>
+          <span>{$translate('ui.share')}</span>
         </button>
       {/if}
     </div>

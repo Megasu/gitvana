@@ -2,7 +2,7 @@
   import { commandDocs } from '../../docs/commands/index.js';
   import { guides } from '../../docs/guides/index.js';
   import type { GuideDoc } from '../../docs/types.js';
-  import { locale } from '../../i18n/index.js';
+  import { locale, translate } from '../../i18n/index.js';
   import { loadCommandOverrides, loadGuideOverrides, mergeCommandDoc, mergeGuide } from '../../i18n/content/docs.js';
   import { renderGuideContent, renderInline } from '../../docs/render.js';
 
@@ -46,7 +46,6 @@
     return name;
   });
   const doc = $derived(!isGuideRequest ? localizedCommandDocs[commandName] ?? localizedCommandDocs[normalizedName()] ?? null : null);
-  const showIndex = $derived(!doc && !guide);
   const allCommands = Object.keys(commandDocs);
 
   // Guide categories
@@ -80,16 +79,16 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<div class="doc-overlay" onclick={handleOverlayClick} onkeydown={handleKeydown} role="dialog" aria-label="Documentation" tabindex="-1">
+<div class="doc-overlay" onclick={handleOverlayClick} onkeydown={handleKeydown} role="dialog" aria-label={$translate('ui.docs')} tabindex="-1">
   <div class="doc-card">
     <div class="doc-header">
       <span class="doc-title">
         {#if guide}
-          GUIDE: {guide.title}
+          {$translate('ui.guide')}: {guide.title}
         {:else if doc}
-          DOCS: git {doc.name}
+          {$translate('ui.docs')}: git {doc.name}
         {:else}
-          DOCS: Git Knowledge Base
+          {$translate('ui.docs')}: {$translate('ui.git_knowledge_base')}
         {/if}
       </span>
       <button class="btn-close" onclick={onClose}>X</button>
@@ -98,7 +97,7 @@
     <div class="doc-body">
       {#if guide}
         <!-- Guide content -->
-        <div class="guide-category-label">{guide.category.toUpperCase()}</div>
+        <div class="guide-category-label">{$translate(`ui.category_${guide.category}`)}</div>
         <div class="guide-content">
           {#each guideContent as block}
             {#if block.type === 'h3'}
@@ -117,7 +116,7 @@
 
         {#if guide.relatedCommands.length > 0}
           <div class="doc-section">
-            <h3 class="section-label">RELATED COMMANDS</h3>
+            <h3 class="section-label">{$translate('ui.related_commands')}</h3>
             <div class="related-list">
               {#each guide.relatedCommands as rel}
                 <code class="related-badge">{rel}</code>
@@ -128,20 +127,20 @@
       {:else if doc}
         <!-- Syntax -->
         <div class="doc-section">
-          <h3 class="section-label">SYNTAX</h3>
+          <h3 class="section-label">{$translate('ui.syntax')}</h3>
           <pre class="syntax-block">{doc.syntax}</pre>
         </div>
 
         <!-- Description -->
         <div class="doc-section">
-          <h3 class="section-label">DESCRIPTION</h3>
+          <h3 class="section-label">{$translate('ui.description')}</h3>
           <p class="description-text">{doc.description}</p>
         </div>
 
         <!-- Options -->
         {#if doc.options.length > 0}
           <div class="doc-section">
-            <h3 class="section-label">OPTIONS</h3>
+            <h3 class="section-label">{$translate('ui.options')}</h3>
             <table class="options-table">
               <tbody>
                 {#each doc.options as opt}
@@ -158,7 +157,7 @@
         <!-- Examples -->
         {#if doc.examples.length > 0}
           <div class="doc-section">
-            <h3 class="section-label">EXAMPLES</h3>
+            <h3 class="section-label">{$translate('ui.examples')}</h3>
             {#each doc.examples as ex}
               <div class="example-item">
                 <pre class="example-cmd">{ex.command}</pre>
@@ -173,14 +172,14 @@
 
         <!-- Tip -->
         <div class="doc-section">
-          <h3 class="section-label">TIP</h3>
+          <h3 class="section-label">{$translate('ui.tip')}</h3>
           <p class="tip-text">{doc.tip}</p>
         </div>
 
         <!-- See Also (guides) -->
         {#if doc.seeAlso && doc.seeAlso.length > 0}
           <div class="doc-section">
-            <h3 class="section-label">LEARN MORE</h3>
+            <h3 class="section-label">{$translate('ui.learn_more')}</h3>
             <div class="related-list">
               {#each doc.seeAlso as gId}
                 {#if localizedGuides[gId]}
@@ -188,14 +187,14 @@
                 {/if}
               {/each}
             </div>
-            <p class="guide-hint">Type <code class="inline-code">docs guide/&lt;id&gt;</code> or visit the full docs page for guide content.</p>
+            <p class="guide-hint">{$translate('ui.docs_guide_hint')}</p>
           </div>
         {/if}
 
         <!-- Related -->
         {#if doc.related.length > 0}
           <div class="doc-section">
-            <h3 class="section-label">RELATED</h3>
+            <h3 class="section-label">{$translate('ui.related_commands')}</h3>
             <div class="related-list">
               {#each doc.related as rel}
                 <code class="related-badge">{rel}</code>
@@ -206,15 +205,15 @@
       {:else}
         <!-- Index: show both guides and commands -->
         {#if commandName}
-          <p class="not-found">No docs found for "{commandName}". See available guides and commands below:</p>
+          <p class="not-found">{$translate('ui.docs_not_found', { name: commandName })}</p>
         {/if}
 
         <!-- Guides section -->
         <div class="doc-section">
-          <h3 class="section-label">LEARN GIT</h3>
+          <h3 class="section-label">{$translate('ui.learn_git')}</h3>
           {#each guideCategories as cat}
             <div class="index-category">
-              <span class="index-category-label">{cat.label}</span>
+              <span class="index-category-label">{$translate(`ui.category_${cat.category}`)}</span>
               <div class="guide-list">
                 {#each getGuidesByCategory(cat.category) as g}
                   <code class="guide-list-item">{g.title}</code>
@@ -222,18 +221,18 @@
               </div>
             </div>
           {/each}
-          <p class="hint-text">Type <code class="inline-code">docs guide/&lt;id&gt;</code> to view a guide (e.g. <code class="inline-code">docs the-three-areas</code>).</p>
+          <p class="hint-text">{$translate('ui.docs_index_guide_hint')}</p>
         </div>
 
         <!-- Commands section -->
         <div class="doc-section">
-          <h3 class="section-label">COMMANDS</h3>
+          <h3 class="section-label">{$translate('ui.commands')}</h3>
           <div class="command-grid">
             {#each allCommands as cmd}
               <code class="command-list-item">git {cmd}</code>
             {/each}
           </div>
-          <p class="hint-text">Type <code class="inline-code">docs &lt;command&gt;</code> to view command documentation.</p>
+          <p class="hint-text">{$translate('ui.docs_command_hint')}</p>
         </div>
       {/if}
     </div>
@@ -597,10 +596,4 @@
     margin: 6px 0 0;
   }
 
-  .inline-code {
-    color: #29adff;
-    background: #29adff18;
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
 </style>

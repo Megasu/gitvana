@@ -3,6 +3,7 @@
   import { gitEngine } from '../../lib/engine/git/GitEngine.js';
   import { eventBus } from '../../lib/engine/events/GameEventBus.js';
   import type { FileStatus } from '../../lib/engine/git/types.js';
+  import { translate } from '../../i18n/index.js';
 
   let files: FileStatus[] = $state([]);
   let initialized = $state(false);
@@ -54,7 +55,7 @@
 
 <div class="file-state-container">
   <div class="panel-header">
-    <span class="panel-title">FILE STATE</span>
+    <span class="panel-title">{$translate('ui.file_state')}</span>
     {#if currentBranch}
       <span class="branch-badge">{currentBranch}</span>
     {/if}
@@ -63,14 +64,14 @@
   {#if !initialized}
     <div class="empty-state">
       <span class="empty-icon">~</span>
-      <span class="empty-text">No repository initialized</span>
-      <span class="empty-hint">Type <code>git init</code> to start</span>
+      <span class="empty-text">{$translate('ui.no_repository')}</span>
+      <span class="empty-hint">{$translate('ui.type_git_init')}</span>
     </div>
   {:else}
     <div class="areas">
       <div class="area">
         <div class="area-header">
-          <span class="area-label">WORKING DIR</span>
+          <span class="area-label">{$translate('ui.working_dir')}</span>
           <span class="area-count">{workingFiles.length}</span>
         </div>
         <div class="file-list">
@@ -81,7 +82,7 @@
             </div>
           {/each}
           {#if workingFiles.length === 0}
-            <span class="area-empty">clean</span>
+            <span class="area-empty">{$translate('ui.clean')}</span>
           {/if}
         </div>
       </div>
@@ -90,7 +91,7 @@
 
       <div class="area">
         <div class="area-header">
-          <span class="area-label">STAGING</span>
+          <span class="area-label">{$translate('ui.staging')}</span>
           <span class="area-count">{stagedFiles.length}</span>
         </div>
         <div class="file-list">
@@ -101,7 +102,7 @@
             </div>
           {/each}
           {#if stagedFiles.length === 0}
-            <span class="area-empty">empty</span>
+            <span class="area-empty">{$translate('ui.empty')}</span>
           {/if}
         </div>
       </div>
@@ -110,7 +111,7 @@
 
       <div class="area">
         <div class="area-header">
-          <span class="area-label">REPOSITORY</span>
+          <span class="area-label">{$translate('ui.repository')}</span>
           <span class="area-count">{committedFiles.length}</span>
         </div>
         <div class="file-list">
@@ -121,7 +122,7 @@
             </div>
           {/each}
           {#if committedFiles.length === 0}
-            <span class="area-empty">no commits</span>
+            <span class="area-empty">{$translate('ui.no_commits_yet')}</span>
           {/if}
         </div>
       </div>
@@ -192,13 +193,6 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: #5f574f88;
-  }
-
-  .empty-hint code {
-    color: #00e436;
-    background: #00e43622;
-    padding: 1px 4px;
-    border-radius: 2px;
   }
 
   .areas {

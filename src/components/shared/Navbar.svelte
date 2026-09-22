@@ -24,9 +24,9 @@
 <nav class="navbar">
   <div class="navbar-inner">
     <a href="/" class="nav-logo" onclick={(e) => { e.preventDefault(); window.location.hash = ''; window.location.reload(); }}>GITVANA</a>
-    <span class="alpha-badge">ALPHA</span>
+    <span class="alpha-badge">{$translate('ui.alpha')}</span>
 
-    <button class="hamburger" onclick={() => menuOpen = !menuOpen} aria-label="Toggle menu">
+    <button class="hamburger" onclick={() => menuOpen = !menuOpen} aria-label={$translate('ui.toggle_menu')}>
       {menuOpen ? '\u2715' : '\u2630'}
     </button>
 

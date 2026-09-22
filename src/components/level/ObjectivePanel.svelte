@@ -58,7 +58,7 @@
   <div class="objective-header">
         <span class="objective-title">{$translate('ui.objectives')}</span>
         <span class="progress">{passedCount}/{totalCount}</span>
-        <span class="command-count">{commandCount} cmds</span>
+        <span class="command-count">{$translate('ui.cmds', { count: commandCount })}</span>
       </div>
 
       <div class="objectives">

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { commandDocs } from '../../docs/commands/index.js';
   import { guides } from '../../docs/guides/index.js';
-  import type { CommandDoc, GuideDoc } from '../../docs/types.js';
-  import { locale } from '../../i18n/index.js';
+  import type { GuideDoc } from '../../docs/types.js';
+  import { locale, translate } from '../../i18n/index.js';
   import { loadCommandOverrides, loadGuideOverrides, mergeCommandDoc, mergeGuide } from '../../i18n/content/docs.js';
   import { renderGuideContent, renderInline } from '../../docs/render.js';
   import Navbar from '../shared/Navbar.svelte';
@@ -87,7 +87,7 @@
     navigator.clipboard.writeText(text);
     const btn = event.currentTarget as HTMLButtonElement;
     const original = btn.textContent;
-    btn.textContent = 'COPIED';
+    btn.textContent = $translate('ui.copied');
     setTimeout(() => { btn.textContent = original; }, 1200);
   }
 
@@ -103,10 +103,10 @@
   <!-- Top bar -->
   <header class="topbar">
     <div class="topbar-left">
-      <button class="sidebar-toggle" onclick={() => sidebarOpen = !sidebarOpen} aria-label="Toggle sidebar">
+      <button class="sidebar-toggle" onclick={() => sidebarOpen = !sidebarOpen} aria-label={$translate('ui.toggle_sidebar')}>
         {sidebarOpen ? '\u2715' : '\u2630'}
       </button>
-      <a href="#/docs" class="topbar-title" onclick={(e) => { e.preventDefault(); navigate(); }}>GITVANA DOCS</a>
+      <a href="#/docs" class="topbar-title" onclick={(e) => { e.preventDefault(); navigate(); }}>GITVANA {$translate('ui.docs')}</a>
     </div>
   </header>
 
@@ -115,11 +115,11 @@
     <nav class="sidebar" class:sidebar-open={sidebarOpen}>
       <!-- Guides section -->
       <div class="sidebar-header">
-        <span class="sidebar-label">LEARN GIT</span>
+        <span class="sidebar-label">{$translate('ui.learn_git')}</span>
       </div>
       {#each guideCategories as cat}
         <div class="sidebar-category">
-          <span class="category-label">{cat.label}</span>
+          <span class="category-label">{$translate(`ui.category_${cat.category}`)}</span>
           {#each getGuidesByCategory(cat.category) as g}
             <button
               class="sidebar-item"
@@ -134,11 +134,11 @@
 
       <!-- Commands section -->
       <div class="sidebar-header sidebar-header-commands">
-        <span class="sidebar-label">COMMANDS</span>
+        <span class="sidebar-label">{$translate('ui.commands')}</span>
       </div>
       {#each categories as cat}
         <div class="sidebar-category">
-          <span class="category-label">{cat.label}</span>
+          <span class="category-label">{$translate(`ui.command_category_${cat.label.toLowerCase().replaceAll(' ', '_')}`)}</span>
           {#each cat.commands as cmd}
             {#if localizedCommandDocs[cmd]}
               <button
@@ -164,7 +164,7 @@
       {#if guide}
         <!-- Guide detail view -->
         <article class="guide-detail">
-          <div class="guide-category-badge">{guide.category.toUpperCase()}</div>
+          <div class="guide-category-badge">{$translate(`ui.category_${guide.category}`)}</div>
           <h1 class="guide-heading">{guide.title}</h1>
 
           <div class="guide-body">
@@ -186,7 +186,7 @@
           <!-- Related commands -->
           {#if guide.relatedCommands.length > 0}
             <section class="doc-section">
-              <h2 class="section-label">RELATED COMMANDS</h2>
+              <h2 class="section-label">{$translate('ui.related_commands')}</h2>
               <div class="related-list">
                 {#each guide.relatedCommands as rel}
                   {#if localizedCommandDocs[rel]}
@@ -206,29 +206,29 @@
 
           <!-- Syntax -->
           <section class="doc-section">
-            <h2 class="section-label">SYNTAX</h2>
+            <h2 class="section-label">{$translate('ui.syntax')}</h2>
             <div class="code-block-wrapper">
               <pre class="code-block">{doc.syntax}</pre>
-              <button class="copy-btn" onclick={(e) => copyToClipboard(doc.syntax, e)}>COPY</button>
+              <button class="copy-btn" onclick={(e) => copyToClipboard(doc.syntax, e)}>{$translate('ui.copy')}</button>
             </div>
           </section>
 
           <!-- Description -->
           <section class="doc-section">
-            <h2 class="section-label">DESCRIPTION</h2>
+            <h2 class="section-label">{$translate('ui.description')}</h2>
             <p class="description-text">{doc.description}</p>
           </section>
 
           <!-- Options -->
           {#if doc.options.length > 0}
             <section class="doc-section">
-              <h2 class="section-label">OPTIONS</h2>
+              <h2 class="section-label">{$translate('ui.options')}</h2>
               <div class="options-table-wrap">
                 <table class="options-table">
                   <thead>
                     <tr>
-                      <th class="opt-th">Flag</th>
-                      <th class="opt-th">Description</th>
+                      <th class="opt-th">{$translate('ui.flag')}</th>
+                      <th class="opt-th">{$translate('ui.description')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -247,12 +247,12 @@
           <!-- Examples -->
           {#if doc.examples.length > 0}
             <section class="doc-section">
-              <h2 class="section-label">EXAMPLES</h2>
+              <h2 class="section-label">{$translate('ui.examples')}</h2>
               {#each doc.examples as ex}
                 <div class="example-item">
                   <div class="code-block-wrapper">
                     <pre class="code-block">{ex.command}</pre>
-                    <button class="copy-btn" onclick={(e) => copyToClipboard(ex.command, e)}>COPY</button>
+                    <button class="copy-btn" onclick={(e) => copyToClipboard(ex.command, e)}>{$translate('ui.copy')}</button>
                   </div>
                   {#if ex.output}
                     <pre class="example-output">{ex.output}</pre>
@@ -265,7 +265,7 @@
 
           <!-- Real World Tip -->
           <section class="doc-section">
-            <h2 class="section-label">REAL WORLD TIP</h2>
+            <h2 class="section-label">{$translate('ui.real_world_tip')}</h2>
             <div class="tip-callout">
               <span class="tip-icon">&#x1F4A1;</span>
               <p class="tip-text">{doc.tip}</p>
@@ -275,7 +275,7 @@
           <!-- Advanced section (optional) -->
           {#if doc.advanced}
             <section class="doc-section">
-              <h2 class="section-label">ADVANCED</h2>
+              <h2 class="section-label">{$translate('ui.category_advanced')}</h2>
               <div class="advanced-block">
                 {#each advancedContent as block}
                   {#if block.type === 'h3' || block.type === 'h4'}
@@ -295,12 +295,12 @@
           <!-- See Also (guides) -->
           {#if doc.seeAlso && doc.seeAlso.length > 0}
             <section class="doc-section">
-              <h2 class="section-label">LEARN MORE</h2>
+              <h2 class="section-label">{$translate('ui.learn_more')}</h2>
               <div class="see-also-list">
                 {#each doc.seeAlso as gId}
                   {#if localizedGuides[gId]}
                     <button class="see-also-card" onclick={() => navigateGuide(gId)}>
-                      <span class="see-also-category">{localizedGuides[gId].category.toUpperCase()}</span>
+                      <span class="see-also-category">{$translate(`ui.category_${localizedGuides[gId].category}`)}</span>
                       <span class="see-also-title">{localizedGuides[gId].title}</span>
                     </button>
                   {/if}
@@ -312,7 +312,7 @@
           <!-- Related Commands -->
           {#if doc.related.length > 0}
             <section class="doc-section">
-              <h2 class="section-label">RELATED COMMANDS</h2>
+              <h2 class="section-label">{$translate('ui.related_commands')}</h2>
               <div class="related-list">
                 {#each doc.related as rel}
                   {#if localizedCommandDocs[rel]}
@@ -328,17 +328,17 @@
       {:else}
         <!-- Index / welcome view -->
         <div class="docs-index">
-          <h1 class="index-heading">Git Knowledge Base</h1>
-          <p class="index-intro">Welcome to the Monastery's library. Learn how git truly works through conceptual guides, then master each command with real examples.</p>
+          <h1 class="index-heading">{$translate('ui.git_knowledge_base')}</h1>
+          <p class="index-intro">{$translate('ui.docs_intro')}</p>
 
           <!-- Guides section -->
           <section class="index-section">
-            <h2 class="index-section-title">LEARN GIT</h2>
-            <p class="index-section-desc">Conceptual guides that teach git's mental model -- not just syntax, but how things actually work under the hood.</p>
+            <h2 class="index-section-title">{$translate('ui.learn_git')}</h2>
+            <p class="index-section-desc">{$translate('ui.docs_guides_desc')}</p>
 
             {#each guideCategories as cat}
               <div class="index-category">
-                <h3 class="index-category-title">{cat.label}</h3>
+                <h3 class="index-category-title">{$translate(`ui.category_${cat.category}`)}</h3>
                 <div class="guide-grid">
                   {#each getGuidesByCategory(cat.category) as g}
                     <button class="guide-card" onclick={() => navigateGuide(g.id)}>
@@ -357,12 +357,12 @@
 
           <!-- Commands section -->
           <section class="index-section">
-            <h2 class="index-section-title">COMMAND REFERENCE</h2>
-            <p class="index-section-desc">Complete reference for every git command available in Gitvana.</p>
+            <h2 class="index-section-title">{$translate('ui.command_reference')}</h2>
+            <p class="index-section-desc">{$translate('ui.command_reference_desc')}</p>
 
             {#each categories as cat}
               <div class="index-category">
-                <h3 class="index-category-title">{cat.label}</h3>
+                <h3 class="index-category-title">{$translate(`ui.command_category_${cat.label.toLowerCase().replaceAll(' ', '_')}`)}</h3>
                 <div class="command-grid">
                   {#each cat.commands as cmd}
                     {#if localizedCommandDocs[cmd]}

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { translate } from '../../i18n/index.js';
 
   interface Props {
     tips: string[];
@@ -59,9 +60,9 @@
     <span class="tip-text">{tips[currentTipIndex]}</span>
     <span class="tip-counter">{currentTipIndex + 1}/{tips.length}</span>
     {#if currentTipIndex < tips.length - 1}
-      <button class="tip-btn tip-next" onclick={nextTip}>NEXT</button>
+      <button class="tip-btn tip-next" onclick={nextTip}>{$translate('ui.tip_next')}</button>
     {/if}
-    <button class="tip-btn tip-dismiss" onclick={dismiss}>GOT IT</button>
+    <button class="tip-btn tip-dismiss" onclick={dismiss}>{$translate('ui.tip_got_it')}</button>
   </div>
 {/if}
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { translate } from '../../i18n/index.js';
   import git from 'isomorphic-git';
   import { gitEngine } from '../../lib/engine/git/GitEngine.js';
   import { eventBus } from '../../lib/engine/events/GameEventBus.js';
@@ -40,7 +41,7 @@
   );
   const allResolved = $derived(resolvedCount === totalConflicts && totalConflicts > 0);
 
-  const fullPath = `${gitEngine.dir}/${filepath}`;
+  const fullPath = $derived(`${gitEngine.dir}/${filepath}`);
 
   function parseFileIntoSections(text: string): FileSection[] {
     const lines = text.split('\n');
@@ -189,7 +190,7 @@
 
   async function save() {
     saving = true;
-    await gitEngine.fs.promises.writeFile(fullPath, resultContent, { encoding: 'utf8' });
+    await gitEngine.fs.promises.writeFile(fullPath, resultContent, 'utf8');
     await git.add({ fs: gitEngine.fs, dir: gitEngine.dir, filepath });
     saving = false;
     eventBus.emit('state:changed', undefined as never);
@@ -211,12 +212,12 @@
   loadFile();
 </script>
 
-<div class="conflict-overlay" onkeydown={handleKeydown} role="dialog" aria-label="Conflict editor">
+<div class="conflict-overlay" onkeydown={handleKeydown} role="dialog" aria-label={$translate('ui.conflict_editor')} tabindex="-1">
   <div class="conflict-card">
     <div class="conflict-header">
       <div class="conflict-title-row">
         <span class="conflict-filepath">{filepath}</span>
-        <span class="conflict-badge">RESOLVE CONFLICT</span>
+        <span class="conflict-badge">{$translate('ui.resolve_conflict')}</span>
         {#if totalConflicts > 0}
           <span class="conflict-progress" class:all-done={allResolved}>
             {resolvedCount} of {totalConflicts} resolved
@@ -224,14 +225,14 @@
         {/if}
       </div>
       <div class="conflict-actions">
-        <button class="btn-action btn-take-ours" onclick={takeAllOurs}>ALL OURS</button>
-        <button class="btn-action btn-take-theirs" onclick={takeAllTheirs}>ALL THEIRS</button>
-        <button class="btn-action btn-take-both" onclick={takeAllBoth}>ALL BOTH</button>
+        <button class="btn-action btn-take-ours" onclick={takeAllOurs}>{$translate('ui.all_ours')}</button>
+        <button class="btn-action btn-take-theirs" onclick={takeAllTheirs}>{$translate('ui.all_theirs')}</button>
+        <button class="btn-action btn-take-both" onclick={takeAllBoth}>{$translate('ui.all_both')}</button>
         <button
           class="btn-action btn-manual"
           class:btn-manual-active={manualEditMode}
           onclick={toggleManualEdit}
-        >MANUAL</button>
+        >{$translate('ui.manual')}</button>
         <button
           class="btn-save"
           onclick={save}
@@ -252,7 +253,7 @@
     </div>
 
     {#if loading}
-      <div class="conflict-loading">Loading...</div>
+      <div class="conflict-loading">{$translate('ui.loading')}</div>
     {:else}
       <div class="editor-body">
         <div class="hunks-panel">
@@ -277,25 +278,25 @@
                     {/if}
                   </span>
                   {#if hunk.resolved}
-                    <button class="btn-undo" onclick={() => unresolveHunk(hunk)}>UNDO</button>
+                    <button class="btn-undo" onclick={() => unresolveHunk(hunk)}>{$translate('ui.undo')}</button>
                   {/if}
                 </div>
 
                 {#if !hunk.resolved}
                   <div class="hunk-panels">
                     <div class="hunk-side hunk-ours">
-                      <div class="hunk-side-label hunk-label-ours">OURS (HEAD)</div>
+                      <div class="hunk-side-label hunk-label-ours">{$translate('ui.ours_head')}</div>
                       <pre class="hunk-code hunk-code-ours">{hunk.ours || '(empty)'}</pre>
                     </div>
                     <div class="hunk-side hunk-theirs">
-                      <div class="hunk-side-label hunk-label-theirs">THEIRS (INCOMING)</div>
+                      <div class="hunk-side-label hunk-label-theirs">{$translate('ui.theirs_incoming')}</div>
                       <pre class="hunk-code hunk-code-theirs">{hunk.theirs || '(empty)'}</pre>
                     </div>
                   </div>
                   <div class="hunk-actions">
-                    <button class="btn-hunk btn-hunk-ours" onclick={() => takeOursHunk(hunk)}>TAKE OURS</button>
-                    <button class="btn-hunk btn-hunk-both" onclick={() => takeBothHunk(hunk)}>TAKE BOTH</button>
-                    <button class="btn-hunk btn-hunk-theirs" onclick={() => takeTheirsHunk(hunk)}>TAKE THEIRS</button>
+                    <button class="btn-hunk btn-hunk-ours" onclick={() => takeOursHunk(hunk)}>{$translate('ui.take_ours')}</button>
+                    <button class="btn-hunk btn-hunk-both" onclick={() => takeBothHunk(hunk)}>{$translate('ui.take_both')}</button>
+                    <button class="btn-hunk btn-hunk-theirs" onclick={() => takeTheirsHunk(hunk)}>{$translate('ui.take_theirs')}</button>
                   </div>
                 {:else}
                   <div class="resolved-preview">
@@ -311,7 +312,7 @@
           <div class="panel-label panel-label-result">
             RESULT
             {#if manualEditMode}
-              <span class="manual-badge">MANUAL</span>
+              <span class="manual-badge">{$translate('ui.manual')}</span>
             {/if}
           </div>
           <textarea

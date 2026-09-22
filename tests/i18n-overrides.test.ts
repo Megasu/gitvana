@@ -1,6 +1,8 @@
-import { test, expect, describe } from 'bun:test';
+import { test, expect, describe } from 'vitest';
 import { readdirSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { act0Levels } from '../src/levels/act0-terminal/index.js';
 import { act1Levels } from '../src/levels/act1-basics/index.js';
 import { act2Levels } from '../src/levels/act2-branching/index.js';
@@ -28,7 +30,7 @@ const allLevels = [
 ];
 const levelsById = new Map(allLevels.map(l => [l.id, l]));
 
-const i18nDir = join(import.meta.dir, '../src/i18n');
+const i18nDir = join(dirname(fileURLToPath(import.meta.url)), '../src/i18n');
 const locales = readdirSync(i18nDir, { withFileTypes: true })
   .filter(d => d.isDirectory() && d.name !== 'en')
   .map(d => d.name);

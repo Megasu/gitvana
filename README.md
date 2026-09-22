@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  🎮 <a href="https://gitvana.pixari.dev"><strong>Play now — gitvana.pixari.dev</strong></a>
+  🎮 <a href="https://gitvana.uinav.com"><strong>Play now — gitvana.uinav.com</strong></a>
 </p>
 
 ---

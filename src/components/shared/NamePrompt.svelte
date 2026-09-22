@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { translate } from '../../i18n/index.js';
   import { savePlayerName } from '../../lib/engine/progression/persistence.js';
 
   interface Props {
@@ -11,14 +12,15 @@
 
   function submit() {
     const trimmed = name.trim();
-    const playerName = trimmed || 'Anonymous Monk';
+    const playerName = trimmed || $translate('ui.anonymous_monk');
     savePlayerName(playerName);
     onComplete(playerName);
   }
 
   function skip() {
-    savePlayerName('Anonymous Monk');
-    onComplete('Anonymous Monk');
+    const anonymous = $translate('ui.anonymous_monk');
+    savePlayerName(anonymous);
+    onComplete(anonymous);
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -29,21 +31,21 @@
 <div class="name-overlay">
   <div class="name-card">
     <div class="title">GITVANA</div>
-    <h2 class="heading">Welcome to the Monastery<br/>of Version Control</h2>
-    <p class="prompt-text">What shall the monks call you?</p>
+    <h2 class="heading">{$translate('ui.name_welcome')}</h2>
+    <p class="prompt-text">{$translate('ui.name_question')}</p>
 
     <input
       class="name-input"
       type="text"
       bind:value={name}
       onkeydown={handleKeydown}
-      placeholder="Enter your name..."
+      placeholder={$translate('ui.name_placeholder')}
       maxlength="24"
       autofocus
     />
 
-    <button class="begin-btn" onclick={submit}>BEGIN</button>
-    <button class="skip-btn" onclick={skip}>Skip (Anonymous Monk)</button>
+    <button class="begin-btn" onclick={submit}>{$translate('ui.begin')}</button>
+    <button class="skip-btn" onclick={skip}>{$translate('ui.skip_anonymous')}</button>
   </div>
 </div>
 

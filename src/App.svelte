@@ -133,7 +133,7 @@
 
   // --- Player name ---
   let playerName = $state(getPlayerName());
-  let showNamePrompt = $state(!isSharePage && playerName === 'Anonymous Monk' && !localStorage.getItem('gitvana-player-name'));
+  let showNamePrompt = $state(!isSharePage && getPlayerName() === 'Anonymous Monk' && !localStorage.getItem('gitvana-player-name'));
 
   function handleNameComplete(name: string) {
     playerName = name;
@@ -287,7 +287,7 @@
   <LandingPage onPlay={handlePlay} />
 {:else}
 
-{#if showTerminalChoice}
+{#if showTerminalChoice && !showNamePrompt}
   <ShellFuChoice onTerminal={handleTerminalChoice} onSkip={handleSkipToGit} />
 {/if}
 
