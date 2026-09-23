@@ -276,5 +276,8 @@
   "share_gitvana": "分享 Gitvana",
   "share_site_text": "边玩边学 Git：一款使用真实终端命令的复古浏览器游戏，完全免费！",
   "monastery_alt": "版本控制修道院",
-  "meditating_monk_alt": "正在打坐的僧侣"
+  "meditating_monk_alt": "正在打坐的僧侣",
+  "learning_path": "路线",
+  "change_learning_path": "切换学习路线",
+  "choice_reopen_hint": "之后可随时点击终端工具栏中的“路线”重新选择。"
 }

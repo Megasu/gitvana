@@ -22,7 +22,7 @@
       {$translate('ui.shell_dialogue_2')}
     </p>
 
-    <div class="choice-buttons">
+  <div class="choice-buttons">
       <button class="choice-btn choice-terminal" onclick={onTerminal}>
         <span class="btn-label">{$translate('ui.learn_basics')}</span>
         <span class="btn-desc">{$translate('ui.three_lessons')}</span>
@@ -33,6 +33,7 @@
       </button>
     </div>
   </div>
+  <p class="choice-reopen-hint">{$translate('ui.choice_reopen_hint')}</p>
 </div>
 
 <style>
@@ -98,6 +99,13 @@
     display: flex;
     gap: 12px;
     margin-top: 20px;
+  }
+
+  .choice-reopen-hint {
+    margin: 14px 0 0;
+    color: #5f574f;
+    font: 10px/1.6 'JetBrains Mono', monospace;
+    text-align: center;
   }
 
   .choice-btn {

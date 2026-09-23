@@ -276,5 +276,8 @@
   "share_gitvana": "Share Gitvana",
   "share_site_text": "Learn Git by playing — a retro browser game with real terminal commands. Free!",
   "monastery_alt": "Monastery of Version Control",
-  "meditating_monk_alt": "Meditating monk"
+  "meditating_monk_alt": "Meditating monk",
+  "learning_path": "PATH",
+  "change_learning_path": "Change learning path",
+  "choice_reopen_hint": "You can change this later with the PATH button in the terminal toolbar."
 }

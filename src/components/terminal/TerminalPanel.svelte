@@ -23,6 +23,7 @@
     onDocRequest?: (commandName: string) => void;
     onAbout?: () => void;
     onRestart?: () => void;
+    onChangePath?: () => void;
     level?: LevelDefinition;
     onSkip?: () => void;
     playerName?: string;
@@ -46,7 +47,7 @@
     }
   }
 
-  let { onEditRequest, onDocRequest, onAbout, onRestart, level, onSkip, playerName }: Props = $props();
+  let { onEditRequest, onDocRequest, onAbout, onRestart, onChangePath, level, onSkip, playerName }: Props = $props();
 
   onMount(() => {
     terminal = new Terminal({
@@ -135,6 +136,7 @@
       </button>
       <button class="header-btn undo-btn" onclick={handleUndo} title={$translate('ui.undo_last_command')}>↶ {$translate('ui.undo')}</button>
       <button class="header-btn icon-btn" onclick={() => onRestart?.()} title={$translate('ui.restart')}>↺</button>
+      <button class="header-btn path-btn" onclick={() => onChangePath?.()} title={$translate('ui.change_learning_path')}>🧭 {$translate('ui.learning_path')}</button>
       <a class="header-btn" href="#/docs" title={$translate('ui.docs')}>{$translate('ui.docs')}</a>
       <a class="header-btn icon-btn coffee" href="https://buymeacoffee.com/pixari" target="_blank" rel="noopener noreferrer" title={$translate('ui.buy_coffee')}>☕</a>
       <a class="header-btn" href="https://github.com/pixari/gitvana" target="_blank" rel="noopener noreferrer" title="GitHub">

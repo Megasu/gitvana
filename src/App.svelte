@@ -121,6 +121,7 @@
     showTerminalChoice = false;
     localStorage.setItem(TERMINAL_CHOICE_KEY, 'terminal');
     levelIndex = 0; // Start at Act 0
+    levelKey++;
     persistProgress();
   }
 
@@ -128,7 +129,13 @@
     showTerminalChoice = false;
     localStorage.setItem(TERMINAL_CHOICE_KEY, 'skip');
     levelIndex = ACT0_COUNT; // Skip to Act 1
+    levelKey++;
     persistProgress();
+  }
+
+  function handleChangeLearningPath() {
+    screen = 'intro';
+    showTerminalChoice = true;
   }
 
   // --- Player name ---
@@ -303,6 +310,7 @@
         onDocRequest={handleDocRequest}
         onAbout={() => showLanding = true}
         onRestart={handleRetry}
+        onChangePath={handleChangeLearningPath}
         level={localizedLevel}
         onSkip={handleNext}
         {playerName}
